@@ -1,13 +1,17 @@
 <template>
   <div>
+    <PageHeader/>
     <!-- 内容占位组件 相当于 router-view-->
     <nuxt />
   </div>
 </template>
 
 <script>
+import PageHeader from '@/components/PageHeader'
 export default {
-
+  components: {
+    PageHeader
+  }
 }
 </script>
 
