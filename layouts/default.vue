@@ -3,14 +3,17 @@
     <PageHeader/>
     <!-- 内容占位组件 相当于 router-view-->
     <nuxt />
+    <PageFooter/>
   </div>
 </template>
 
 <script>
 import PageHeader from '@/components/PageHeader'
+import PageFooter from '@/components/PageFooter'
 export default {
   components: {
-    PageHeader
+    PageHeader,
+    PageFooter
   }
 }
 </script>
