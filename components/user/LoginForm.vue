@@ -1,17 +1,21 @@
 <template>
+    <!-- 数据校验第一步, 表单整体绑定一个数据对象 -->
+    <!-- 数据校验第二部, 表单绑定一个校验规则对象,
+    里面跟数据对象一一对应 -->
     <el-form 
         :model="form" 
         ref="form"
         :rules="rules" 
         class="form">
 
-        <el-form-item class="form-item">
+        <!-- 给表单项指定对应的规则属性, 以字符串的形式设置在 prop 属性上 -->
+        <el-form-item class="form-item" prop='username'>
             <el-input 
             placeholder="用户名/手机" v-model="form.username">
             </el-input>
         </el-form-item>
 
-        <el-form-item class="form-item">
+        <el-form-item class="form-item" prop="password">
             <el-input 
             placeholder="密码" 
             type="password"
@@ -43,7 +47,22 @@ export default {
                 password: ''
             },
             // 表单规则
-            rules: {},
+            rules: {
+                username: [
+                    {
+                        required: true,
+                        message: '请输入用户名',
+                        trigger: 'blur'
+                    }
+                ],
+                password: [
+                    { 
+                        required: true, 
+                        message: '请输入密码', 
+                        trigger: 'blur' 
+                    },
+                ],
+            },
         }
     },
     methods: {
