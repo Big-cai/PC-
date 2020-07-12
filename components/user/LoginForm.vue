@@ -49,9 +49,24 @@ export default {
             // 表单规则
             rules: {
                 username: [
+                    // rules 里面的每个属性都对应数据对象里面的 key, 都是一个数组
+                    // 数组里面的对象是一条条的规则, 这些规则会按顺序进行校验
+                    // 假如我现在要求用户名必须填写, 而且是3到5个字符
+                    // {
+                    //     required: true,
+                    //     message: '请输入用户名',
+                    //     trigger: 'blur'
+                    // },
                     {
-                        required: true,
-                        message: '请输入用户名',
+                        min: 6,
+                        max: 15,
+                        message: '用户名在 6 到 15 个字符之间',
+                        trigger: 'blur'
+                    },
+                    // 还可以使用正则表达式
+                    {
+                        pattern: /^\d+$/,
+                        message: '用户名只能输入数字',
                         trigger: 'blur'
                     }
                 ],
