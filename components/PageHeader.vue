@@ -53,6 +53,16 @@ export default {
     methods: {
         // 用户退出
         handleLogout(){},
+    },
+    mounted() {
+        // 尝试在挂载完毕以后, 等待一秒修改 store 数据
+        setTimeout(() => {
+            // this.$store.state.user.username = '哈哈哈,被改掉啦'
+            // 上面这种直接赋值会报错, 禁止直接修改 vuex 的状态数据
+            // 需要调用 mutation 使用 $store.commit 方法
+            // 传入两个参数, 第一个是仓库名/mutation 函数名的字符串, 第二个是额外数据
+            this.$store.commit('user/setUsername', '啦啦啦')
+        }, 1000);
     }
 }
 </script>
