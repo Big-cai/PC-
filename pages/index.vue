@@ -2,10 +2,7 @@
     <div class="container">
         <!-- 幻灯片 -->
         <el-carousel :interval="5000" arrow="always">
-
             <el-carousel-item v-for="(item, index) in banners" :key="index">
-                
-                
                 <div
                     class="banner-image"
                     :style="`
@@ -13,12 +10,39 @@
                 background-size:contain contain;
                 `"
                 ></div>
-
-
             </el-carousel-item>
-
-
         </el-carousel>
+
+        <!-- 搜索框 -->
+        <div class="banner-content">
+            <div class="search-bar">
+                
+                <!-- tab栏 -->
+                <el-row 
+                type="flex" 
+                class="search-tab">
+                    <span 
+
+                    v-for="(item, index) in options" 
+
+                    :key="index" 
+                    @click="handleOption(index)">
+                    >
+                        <i>{{item.name}}</i>
+                    </span>
+                </el-row>
+                
+                <!-- 输入框 -->
+                <el-row 
+                type="flex" 
+                align="middle" 
+                class="search-input">
+                    <input 
+                    :placeholder="options[currentOption].placeholder" />
+                    <i class="el-icon-search" ></i>
+                </el-row>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -26,7 +50,23 @@
 export default {
   data() {
     return {
-      banners: []
+      banners: [],
+    //   记录当前的激活选项索引
+      currentOption: 0,
+      options: [
+          {
+              name: '攻略',
+              placeholder: '请输入城市搜索攻略'
+          },
+          {
+              name: '酒店',
+              placeholder: '请输入城市搜索酒店'
+          },
+          {
+              name: '机票',
+              placeholder: '请输入城市搜索机票'
+          }
+      ]
     }
   },
   created() {
@@ -43,6 +83,12 @@ export default {
       })
       
     })
+  },
+  methods:{
+    handleOption(index) {
+        console.log('修改当前激活标签');
+        this.currentOption = index;
+    }
   }
 };
 </script>
