@@ -11,7 +11,8 @@
         <!-- 给表单项指定对应的规则属性, 以字符串的形式设置在 prop 属性上 -->
         <el-form-item class="form-item" prop='username'>
             <el-input 
-            placeholder="用户名/手机" v-model="form.username">
+            placeholder="用户名/手机" v-model="form.username"
+            @focus="clearMsg('username')">
             </el-input>
         </el-form-item>
 
@@ -93,6 +94,11 @@ export default {
             }).then(res => {
                 console.log(res.data);
             })
+        },
+        clearMsg(propName) {
+            // 如果拿到一个数据的 prop 名字
+            // 就可以直接调用表单,来清理对应数据的错误信息
+            this.$refs.form.clearValidate(propName)
         }
     }
 }
