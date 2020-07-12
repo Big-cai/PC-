@@ -22,12 +22,10 @@
                 type="flex" 
                 class="search-tab">
                     <span 
-
                     v-for="(item, index) in options" 
-
                     :key="index" 
+                    :class="{active: index === currentOption}"
                     @click="handleOption(index)">
-                    >
                         <i>{{item.name}}</i>
                     </span>
                 </el-row>
@@ -38,8 +36,11 @@
                 align="middle" 
                 class="search-input">
                     <input 
-                    :placeholder="options[currentOption].placeholder" />
-                    <i class="el-icon-search" ></i>
+                    :placeholder="options[currentOption].placeholder" 
+                    v-model="searchValue"
+                    @keyup.enter="handleSearch"
+                    />
+                    <i class="el-icon-search" @click="handleSearch"></i>
                 </el-row>
             </div>
         </div>
@@ -53,18 +54,22 @@ export default {
       banners: [],
     //   记录当前的激活选项索引
       currentOption: 0,
+      searchValue: '',
       options: [
           {
               name: '攻略',
-              placeholder: '请输入城市搜索攻略'
+              placeholder: '请输入城市搜索攻略',
+              pageUrl: '/post'
           },
           {
               name: '酒店',
-              placeholder: '请输入城市搜索酒店'
+              placeholder: '请输入城市搜索酒店',
+              pageUrl: '/hotel'
           },
           {
               name: '机票',
-              placeholder: '请输入城市搜索机票'
+              placeholder: '请输入城市搜索机票',
+              pageUrl: '/air'
           }
       ]
     }
@@ -87,7 +92,18 @@ export default {
   methods:{
     handleOption(index) {
         console.log('修改当前激活标签');
-        this.currentOption = index;
+        // 如果点击的是机票就直接跳转
+        if (index == 2) {
+            this.$router.push('/air')
+        }else {
+
+            this.currentOption = index;
+        }
+    },
+    handleSearch() {
+        console.log('触发了搜索函数');
+        // 应该带着当前的输入值, 跳转到新页面
+        this.$router.push(this.options[this.currentOption].pageUrl +"?city="+this.searchValue)
     }
   }
 };
@@ -106,6 +122,95 @@ export default {
     .banner-image{
         width:100%;
         height:100%;
+    }
+
+    .banner-content{
+        z-index:9;
+        width:1000px;
+        position:absolute;
+        left:50%;
+        top:45%;
+        margin-left: -500px;
+        border-top:1px transparent solid;
+
+        .search-bar{
+            width:552px;
+            margin:0 auto;
+        }
+
+        .search-tab{
+            .active{
+                i{
+                color:#333;
+                }
+                &::after{
+                background: #eee;
+                }
+            }
+
+            span{
+                width:82px;
+                height:36px;
+                display:block;
+                position: relative;
+                margin-right:8px;
+                cursor: pointer;
+
+                i{
+                position:absolute;
+                z-index:2;
+                display: block;
+                width:100%;
+                height:100%;
+                line-height:30px;
+                text-align:center;
+                color:#fff;
+                }
+
+                &:after{
+                position: absolute;
+                left:0;
+                top:0;
+                display:block;
+                content: "";
+                width:100%;
+                height:100%;
+                border: 1px rgba(255,255,255,.2) solid;
+                border-bottom: none;
+                transform: scale(1.1,1.3) perspective(.7em) rotateX(2.2deg);
+                transform-origin: bottom left;
+                background: rgba(0,0,0,.5);
+                border-radius:1px 2px 0 0;
+                box-sizing:border-box;
+                }
+            }
+        }
+
+        .search-input{
+            width:550px;
+            height:46px;
+            background:#fff;
+            border-radius: 0 4px 4px 4px;
+            border: 1px rgba(255,255,255,.2) solid;
+            border-top:none;
+            box-sizing: unset;
+
+            input{
+                flex:1;
+                height:20px;
+                padding: 13px 15px;
+                outline: none;
+                border:0;
+                font-size:16px;
+            }
+
+            .el-icon-search{
+                cursor :pointer;
+                font-size:22px;
+                padding:0 10px;
+                font-weight:bold;
+            }
+        }
     }
 }
 </style>
