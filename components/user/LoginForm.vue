@@ -53,11 +53,11 @@ export default {
                     // rules 里面的每个属性都对应数据对象里面的 key, 都是一个数组
                     // 数组里面的对象是一条条的规则, 这些规则会按顺序进行校验
                     // 假如我现在要求用户名必须填写, 而且是3到5个字符
-                    // {
-                    //     required: true,
-                    //     message: '请输入用户名',
-                    //     trigger: 'blur'
-                    // },
+                    {
+                        required: true,
+                        message: '请输入用户名',
+                        trigger: 'blur'
+                    },
                     {
                         min: 6,
                         max: 15,
@@ -87,13 +87,41 @@ export default {
             // 默认登录的用户名和密码是
             // 13800138000 : 123456
             console.log(this.form)
-            this.$axios({
-                url: "/accounts/login",
-                method: "POST",
-                data: this.form
-            }).then(res => {
-                console.log(res.data);
+
+            // 我们需要在发送之前进行一次总的校验复核一遍
+            // 拿到表单对象, 直接调用他的方法, 传入回调
+            this.$refs.form.validate((isValid, objNotValid)=>{
+                // 第一个参数代表是否验证成功, 只有成功的状态, 才发出请求
+                if (isValid) {
+                    this.$axios({
+                        url: "/accounts/login",
+                        method: "POST",
+                        data: this.form
+                    }).then(res => {
+                        console.log(res.data);
+                    })
+                }else {
+                    // 如果失败, 尝试将 objNotValid 告诉你那个字段失败的信息打印出来
+                    console.log(objNotValid);
+                }
             })
+
+            // 也可以用 promise 形式实现, 这是饿了么已经封装好的
+            // this.$refs.form.validate().then((isValid)=>{
+            //     // 第一个参数代表是否验证成功, 只有成功的状态, 才发出请求
+            //     if (isValid) {
+            //         this.$axios({
+            //             url: "/accounts/login",
+            //             method: "POST",
+            //             data: this.form
+            //         }).then(res => {
+            //             console.log(res.data);
+            //         })
+            //     }
+            // }).catch(err=>{
+            //     console.log(err);
+            // })
+            
         },
         clearMsg(propName) {
             // 如果拿到一个数据的 prop 名字
