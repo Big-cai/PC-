@@ -68,7 +68,16 @@ export default {
     methods: {
         // 提交登录
         handleLoginSubmit(){
-           console.log(this.form)
+            // 默认登录的用户名和密码是
+            // 13800138000 : 123456
+            console.log(this.form)
+            this.$axios({
+                url: "/accounts/login",
+                method: "POST",
+                data: this.form
+            }).then(res => {
+                console.log(res.data);
+            })
         }
     }
 }
