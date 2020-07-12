@@ -40,6 +40,7 @@
                 </el-dropdown> -->
 
                 <!-- 不存在用户信息展示登录注册链接 -->
+                {{$store.state.user.username}}
                 <nuxt-link to="/user/login" class="account-link">
                     登录 / 注册 
                 </nuxt-link>
