@@ -21,11 +21,11 @@
             <el-row type="flex" align="middle">
 
                 <!-- 如果用户存在则展示用户信息，用户数据来自store -->
-                <!-- <el-dropdown v-if="false">
+                <el-dropdown v-if="$store.state.user.userInfo.token">
                     <el-row type="flex" align="middle" class="el-dropdown-link">
                         <nuxt-link to="#">
-                            <img src="http://157.122.54.189:9093/images/pic_sea.jpeg"/>
-                            用户名
+                            <img :src="$axios.defaults.baseURL + $store.state.user.userInfo.user.defaultAvatar"/>
+                            {{$store.state.user.userInfo.user.nickname}}
                         </nuxt-link>
                         <i class="el-icon-caret-bottom el-icon--right"></i>
                     </el-row>
@@ -37,11 +37,10 @@
                             <div @click="handleLogout">退出</div> 
                         </el-dropdown-item>
                     </el-dropdown-menu>
-                </el-dropdown> -->
+                </el-dropdown>
 
                 <!-- 不存在用户信息展示登录注册链接 -->
-                {{$store.state.user.username}}
-                <nuxt-link to="/user/login" class="account-link">
+                <nuxt-link v-else to="/user/login" class="account-link">
                     登录 / 注册 
                 </nuxt-link>
             </el-row>
@@ -54,16 +53,6 @@ export default {
         // 用户退出
         handleLogout(){},
     },
-    mounted() {
-        // 尝试在挂载完毕以后, 等待一秒修改 store 数据
-        setTimeout(() => {
-            // this.$store.state.user.username = '哈哈哈,被改掉啦'
-            // 上面这种直接赋值会报错, 禁止直接修改 vuex 的状态数据
-            // 需要调用 mutation 使用 $store.commit 方法
-            // 传入两个参数, 第一个是仓库名/mutation 函数名的字符串, 第二个是额外数据
-            this.$store.commit('user/setUsername', '啦啦啦')
-        }, 1000);
-    }
 }
 </script>
 <style scoped lang="less">
