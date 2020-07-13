@@ -19,7 +19,7 @@ export const actions = {
         // 1. 当前仓库 store 的本身
         // 2. 外部调用时额外的数据
         // 对于登录来说就是表单数据对象
-        this.$axios({
+        return this.$axios({
             url: "/accounts/login",
             method: "POST",
             data
@@ -31,6 +31,7 @@ export const actions = {
                 // this.$store.commit('user/setUserInfo', res.data)
                 commit('setUserInfo', res.data)
             }
+            return res
         })
     }
 };
