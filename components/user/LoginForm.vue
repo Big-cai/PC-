@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { mutations } from '../../store/user'
 export default {
     data(){
         return {
@@ -93,16 +94,12 @@ export default {
             this.$refs.form.validate((isValid, objNotValid)=>{
                 // 第一个参数代表是否验证成功, 只有成功的状态, 才发出请求
                 if (isValid) {
-                    this.$axios({
-                        url: "/accounts/login",
-                        method: "POST",
-                        data: this.form
-                    }).then(res => {
-                        console.log(res.data);
-                        if (res.data.token) {
-                            this.$store.commit('user/setUserInfo', res.data)
-                        }
-                    })
+                    // 既然已经封装好了 vuex 的登录
+                    // 在这里只需要调用即可
+                    // 调用 mutations 是 commit
+                    // 调用 actions 是 dispatch
+                    console.log('开始登录');
+                    this.$store.dispatch('user/login', this.form)
                 }else {
                     // 如果失败, 尝试将 objNotValid 告诉你那个字段失败的信息打印出来
                     console.log(objNotValid);

@@ -14,7 +14,7 @@ export const mutations = {
 };
 
 export const actions = {
-    login(store, data) {
+    login({commit}, data) {
         // 这个函数可以接收到两个参数
         // 1. 当前仓库 store 的本身
         // 2. 外部调用时额外的数据
@@ -29,7 +29,7 @@ export const actions = {
                 // action 是 vuex 执行异步操作的地方
                 // 但是修改 state 数据依然只能通过 mutations
                 // this.$store.commit('user/setUserInfo', res.data)
-                store.commit('setUserInfo', res.data)
+                commit('setUserInfo', res.data)
             }
         })
     }
