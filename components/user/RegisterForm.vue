@@ -167,7 +167,30 @@ export default {
 
         // 注册
         handleRegSubmit(){
-           console.log(this.form)
+            console.log(this.form)
+            this.$refs.form.validate((valid) => {
+                if (valid) {
+                    // 注册提交
+                    // const {checkPassword, ...props} = this.form;
+                    
+                    // const data = {
+                    //     username: this.form.username,
+                    //     password: this.form.password,
+                    //     nickname: this.form.nickname,
+                    //     captcha: this.form.captcha,
+                    // }
+
+                    const {checkPassword, ...props} = this.form
+
+                    this.$axios({
+                        url: `/accounts/register`,
+                        method: "POST",
+                        data: props
+                    }).then(res => {
+                        console.log(res.data);
+                    })
+                } 
+            });
         }
     }
 }
