@@ -53,6 +53,26 @@
 <script>
 export default {
     data(){
+        const passwordValidator = (rule, value, callback) => {
+            // 在一个校验函数内部, 可以接受三个参数
+            // 1. 规则对象本身
+            // 2. 当前输入的值
+            // 3. 放行的回调函数
+            // 当你校验完输入值的合法性, 需要调用 callback 继续下去
+            // 我们在这里需要做的就是判断当前二次代码的输入值是否跟第一次一样
+            // 不通过的情况下,需要在调用 callback 的时候, 传入一个错误对象
+            // new Error('请再次输入密码')
+            if (value == '') {
+                // 二次代码根本没有输入, 应该报错请再次输入密码
+                callback(new Error('请再次输入密码'))
+            }else if (value !== this.form.password) {
+                // 二次代码跟第一次不一样, 应该报错两次输入的密码应该相同
+                callback(new Error('两次密码输入应该相同'))
+            }else {
+                // 通过
+                callback();
+            }
+        }
         return {
             // 表单数据
             form: {
@@ -79,9 +99,13 @@ export default {
                     }
                 ],
                 checkPassword: [
+                    // 如果我们需要自定义的函数,
+                    // 对数据的输入进行校验,
+                    // 就可以定义一个 validator 的属性
+                    // 并且传入一个函数
+                    // 将校验规则和报错信息都写在函数里面
                     {
-                        required: true,
-                        message: '请再次输入密码',
+                        validator: passwordValidator,
                         trigger: 'blur'
                     }
                 ],
