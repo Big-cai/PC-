@@ -98,7 +98,8 @@ export default {
                 // 但是里面没有 value 值 而是 name 属性
                 const suggestions = res.data.data.map(city=>{
                     return {
-                        value: city.name,
+                        // 城市名的最后如果是市字,要删掉
+                        value: city.name.replace(/市$/, ''),
                         code: city.sort
                     }
                 })
