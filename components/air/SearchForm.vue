@@ -159,7 +159,12 @@ export default {
 
         // 提交表单是触发
         handleSubmit(){
-           console.log(this.form);
+            console.log(this.form);
+            // 利用编程式导航跳转页面
+            this.$router.push({
+                path: '/air/flights',
+                query: this.form
+            })
         }
     },
     mounted() {
