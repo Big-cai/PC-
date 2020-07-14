@@ -81,21 +81,21 @@ export default {
         
         // 出发城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
-        queryDepartSearch(value, cb){
-            cb([
-                {value: 1},
-                {value: 2},
-                {value: 3},
+        queryDepartSearch(value, showList){
+            showList([
+                {value: '广州'},
+                {value: '上海'},
+                {value: '北京'},
             ]);
         },
 
         // 目标城市输入框获得焦点时触发
-        // value 是选中的值，cb是回调函数，接收要展示的列表
-        queryDestSearch(value, cb){
-            cb([
-                {value: 1},
-                {value: 2},
-                {value: 3},
+        // value 是选中的值，showList是回调函数，接收要展示的列表
+        queryDestSearch(value, showList){
+            showList([
+                {value: '呼和浩特'},
+                {value: '拉萨'},
+                {value: '吉山幼儿园'},
             ]);
         },
        
