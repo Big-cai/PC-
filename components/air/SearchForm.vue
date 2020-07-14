@@ -94,7 +94,8 @@ export default {
                 // 但是里面没有 value 值 而是 name 属性
                 const suggestions = res.data.data.map(city=>{
                     return {
-                        value: city.name
+                        value: city.name,
+                        code: city.sort
                     }
                 })
                 // 将处理完的数据显示出来
@@ -116,7 +117,8 @@ export default {
                 // 但是里面没有 value 值 而是 name 属性
                 const suggestions = res.data.data.map(city=>{
                     return {
-                        value: city.name
+                        value: city.name,
+                        code: city.sort
                     }
                 })
                 // 将处理完的数据显示出来
@@ -126,12 +128,16 @@ export default {
        
         // 出发城市下拉选择时触发
         handleDepartSelect(item) {
-            
+            console.log(11111111);
+            // 建议被选择后,会带上一个被选项 item 对象
+            // 将里面的 code 存放到 表单的出发城市代码
+            console.log(item);
+            this.form.departCode = item.code
         },
 
         // 目标城市下拉选择时触发
         handleDestSelect(item) {
-            
+            this.form.destCode = item.code
         },
 
         // 确认选择日期时触发
