@@ -82,21 +82,46 @@ export default {
         // 出发城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
         queryDepartSearch(value, showList){
-            showList([
-                {value: '广州'},
-                {value: '上海'},
-                {value: '北京'},
-            ]);
+            // 每次获取建议的时候,其实都需要真的发送请求获取城市列表
+            this.$axios({
+                url: '/airs/city',
+                params: {
+                    name: value
+                }
+            }).then(res=>{
+                console.log(res.data);
+                // 我们拿到了res.data.data
+                // 但是里面没有 value 值 而是 name 属性
+                const suggestions = res.data.data.map(city=>{
+                    return {
+                        value: city.name
+                    }
+                })
+                // 将处理完的数据显示出来
+                showList(suggestions)
+            })
         },
 
         // 目标城市输入框获得焦点时触发
         // value 是选中的值，showList是回调函数，接收要展示的列表
         queryDestSearch(value, showList){
-            showList([
-                {value: '呼和浩特'},
-                {value: '拉萨'},
-                {value: '吉山幼儿园'},
-            ]);
+            this.$axios({
+                url: '/airs/city',
+                params: {
+                    name: value
+                }
+            }).then(res=>{
+                console.log(res.data);
+                // 我们拿到了res.data.data
+                // 但是里面没有 value 值 而是 name 属性
+                const suggestions = res.data.data.map(city=>{
+                    return {
+                        value: city.name
+                    }
+                })
+                // 将处理完的数据显示出来
+                showList(suggestions)
+            })
         },
        
         // 出发城市下拉选择时触发
