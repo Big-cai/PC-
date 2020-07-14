@@ -15,6 +15,7 @@
                 <!-- fetch-suggestions 返回输入建议的方法 -->
                 <!-- select 点击选中建议项时触发 -->
                 <el-autocomplete
+                v-model="form.departCity"
                 :fetch-suggestions="queryDepartSearch"
                 placeholder="请搜索出发城市"
                 @select="handleDepartSelect"
@@ -23,6 +24,7 @@
             </el-form-item>
             <el-form-item label="到达城市">
                 <el-autocomplete
+                v-model="form.destCity"
                 :fetch-suggestions="queryDestSearch"
                 placeholder="请搜索到达城市"
                 @select="handleDestSelect"
@@ -32,6 +34,7 @@
             <el-form-item label="出发时间">
                 <!-- change 用户确认选择日期时触发 -->
                 <el-date-picker type="date" 
+                v-model="form.departDate"
                 placeholder="请选择日期" 
                 style="width: 100%;"
                 @change="handleDate">
@@ -61,6 +64,13 @@ export default {
                 {icon: "iconfont iconshuangxiang", name: "往返"}
             ],
             currentTab: 0,
+            form: {
+                departCity: '',
+                departCode: '',
+                destCity: '',
+                destCode: '',
+                departDate: ''
+            }
         }
     },
     methods: {
@@ -111,7 +121,7 @@ export default {
 
         // 提交表单是触发
         handleSubmit(){
-           
+           console.log(this.form);
         }
     },
     mounted() {
