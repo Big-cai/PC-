@@ -130,9 +130,15 @@ export default {
                 // 这里获取到列表, 就应该先将列表的第一项设为默认 code
                 if (suggestions.length > 0) {
                     this.form.departCode = suggestions[0].code
+                    // 显示推荐列表
+                    showList(suggestions)
+                }else{
+                    showList([
+                        {
+                            value: '没有找到该城市'
+                        }
+                    ])
                 }
-                // 显示推荐列表
-                showList(suggestions)
                 
             })
         },
@@ -143,8 +149,14 @@ export default {
             this.getCityList(value).then(suggestions=>{
                 if (suggestions.length > 0) {
                     this.form.destCode = suggestions[0].code
+                    showList(suggestions)
+                }else{
+                    showList([
+                        {
+                            value: '没有找到该城市'
+                        }
+                    ])
                 }
-                showList(suggestions)
             })
         },
        
