@@ -202,7 +202,14 @@ export default {
             // 利用编程式导航跳转页面
             this.$router.push({
                 path: '/air/flights',
-                query: this.form
+                // query: this.form
+                query: {
+                    departCity: this.form.departCity.replace(/市$/, ''),
+                    departCode: this.form.departCode,
+                    destCity: this.form.destCity.replace(/市$/, ''),
+                    destCode: this.form.destCode,
+                    departDate: this.form.departDate
+                }
             })
         }
     },
