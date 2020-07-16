@@ -19,8 +19,7 @@
                 
                 <!-- 航班信息 -->
                 <div>
-                    航班信息
-                    
+                    <FlightsItem/>
                 </div>
             </div>
 
@@ -35,9 +34,11 @@
 
 <script>
 import FlightsListHead from '@/components/air/FlightsListHead'
+import FlightsItem from '@/components/air/FlightsItem'
 export default {
     components: {
-        FlightsListHead
+        FlightsListHead,
+        FlightsItem
     },
     created() {
         // 现在所有的参数都在 URL 直接发送请求
