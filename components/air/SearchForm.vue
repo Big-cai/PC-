@@ -154,7 +154,14 @@ export default {
 
         // 触发和目标城市切换时触发
         handleReverse(){
-            
+            const oldDestCity = this.form.destCity
+            const oldDestCode = this.form.destCode
+
+            this.form.destCity = this.form.departCity
+            this.form.destCode = this.form.departCode
+
+            this.form.departCity = oldDestCity
+            this.form.departCode = oldDestCode
         },
 
         // 提交表单是触发
