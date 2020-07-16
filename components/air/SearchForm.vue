@@ -114,7 +114,7 @@ export default {
         // value 是选中的值，cb是回调函数，接收要展示的列表
         queryDepartSearch(value, showList){
             // 我调用封装好的请求函数, 应该在里面能够获取到数据,
-            // 我系王拿到这个数据进行下一步 曹晓鸥 showList
+            // 拿到了这个数据进行下一步 将传回来的数据执行 showList
             this.getCityList(value).then(suggestions=>{
                 showList(suggestions)
             })
