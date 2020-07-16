@@ -12,7 +12,7 @@
                 
                 <!-- 航班头部布局 -->
                 <div>
-                    航班头部布局
+                    <FlightsListHead/>
                     
                 </div>
                 
@@ -34,7 +34,11 @@
 </template>
 
 <script>
+import FlightsListHead from '@/components/air/FlightsListHead'
 export default {
+    components: {
+        FlightsListHead
+    },
     created() {
         // 现在所有的参数都在 URL 直接发送请求
         this.$axios({
