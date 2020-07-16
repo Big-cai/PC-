@@ -188,6 +188,16 @@ export default {
                         data: props
                     }).then(res => {
                         console.log(res.data);
+                        if (res.data.token) {
+                            this.$message({
+                                message: '注册成功,正在跳转',
+                                type: 'success'
+                            });
+                            // 提醒父组件切换到登录tab
+                            setTimeout(() => {
+                                this.$emit('tologin')
+                            }, 1000);
+                        }
                     })
                 } 
             });
