@@ -1,6 +1,11 @@
 <template>
     <div class="search-form">
 
+        departCity = {{form.departCity}} <br>
+        departCode = {{form.departCode}} <br>
+        destCity = {{form.destCity}} <br>
+        destCode = {{form.destCode}} <br>
+        departDate = {{form.departDate}} <br>        
         <!-- 头部tab切换 -->
         <el-row type="flex" class="search-tab">
             <span v-for="(item, index) in tabs" :key="index"
@@ -122,7 +127,13 @@ export default {
             // 我调用封装好的请求函数, 应该在里面能够获取到数据,
             // 拿到了这个数据进行下一步 将传回来的数据执行 showList
             this.getCityList(value).then(suggestions=>{
+                // 这里获取到列表, 就应该先将列表的第一项设为默认 code
+                if (suggestions.length > 0) {
+                    this.form.departCode = suggestions[0].code
+                }
+                // 显示推荐列表
                 showList(suggestions)
+                
             })
         },
 
@@ -130,6 +141,9 @@ export default {
         // value 是选中的值，showList是回调函数，接收要展示的列表
         queryDestSearch(value, showList){
             this.getCityList(value).then(suggestions=>{
+                if (suggestions.length > 0) {
+                    this.form.destCode = suggestions[0].code
+                }
                 showList(suggestions)
             })
         },
