@@ -19,7 +19,7 @@
                 
                 <!-- 航班信息 -->
                 <div>
-                    <FlightsItem/>
+                    <FlightsItem :data="item" v-for="item in flightsData.flights" :key="item.id"/>
                 </div>
             </div>
 
@@ -36,6 +36,11 @@
 import FlightsListHead from '@/components/air/FlightsListHead'
 import FlightsItem from '@/components/air/FlightsItem'
 export default {
+    data() {
+        return {
+            flightsData: {}
+        }
+    },
     components: {
         FlightsListHead,
         FlightsItem
@@ -47,6 +52,7 @@ export default {
             params: this.$route.query
         }).then(res=>{
             console.log(res.data);
+            this.flightsData = res.data
         })
     }
 }
