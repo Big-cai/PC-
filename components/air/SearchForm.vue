@@ -82,7 +82,13 @@ export default {
     methods: {
         // tab切换时触发
         handleSearchTab(item, index){
-            
+            if(index === 1){
+                this.$confirm("目前暂不支持往返，请使用单程选票！", '提示', {
+                    confirmButtonText: '确定',
+                    showCancelButton: false,
+                    type: 'warning'
+                })
+            }
         },
 
         // 每个函数应该做好, 并且只做一件事情
