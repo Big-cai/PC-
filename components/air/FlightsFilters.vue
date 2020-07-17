@@ -8,7 +8,7 @@
                 2019-06-17
             </el-col>
             <el-col :span="4">
-                <el-select size="mini" v-model="airport" placeholder="起飞机场" @change="handleAirport">
+                <el-select size="mini" v-model="airport" placeholder="起飞机场" @change="runFilters">
                     <el-option
                     v-for="(item, index) in options.airport"
                     :key="index"
@@ -19,7 +19,7 @@
                 </el-select>
             </el-col>
             <el-col :span="4">
-                <el-select size="mini" v-model="flightTimes"  placeholder="起飞时间" @change="handleFlightTimes">
+                <el-select size="mini" v-model="flightTimes"  placeholder="起飞时间" @change="runFilters">
                     <!-- 对于起飞时间的 value 值其实并非固定,
                     最终要飞机起飞时间大于 from 小于 to 才能放行
                     最终是由我们自己进行比较和筛选
@@ -36,7 +36,7 @@
                 </el-select>
             </el-col>
             <el-col :span="4">
-                <el-select size="mini" v-model="company"  placeholder="航空公司" @change="handleCompany">
+                <el-select size="mini" v-model="company"  placeholder="航空公司" @change="runFilters">
                     <el-option
                     v-for="(item, index) in options.company"
                     :key="index"
@@ -46,7 +46,7 @@
                 </el-select>
             </el-col>
             <el-col :span="4">
-                <el-select size="mini" v-model="airSize" placeholder="机型" @change="handleAirSize">
+                <el-select size="mini" v-model="airSize" placeholder="机型" @change="runFilters">
                     <el-option
                     v-for="(item, index) in planeSize"
                     :key="index"
@@ -99,44 +99,39 @@ export default {
         }
     },
     methods: {
-        // 选择机场时候触发
-        handleAirport(value){
-            const newList = this.flights.filter(el=>{
-                return el.org_airport_name == value
-            })
-            this.$emit('setFlightsList', newList)
-        },
+        runFilters() {
+            // 复制原来100条数据
+            let newList = [...this.flights]
 
-        // 选择出发时间时候触发
-        handleFlightTimes(value){
-            console.log(value);
-            const newList = this.flights.filter(el=>{
-                const planeTime = Number(el.dep_time.split(':')[0])
-                const from = Number(value.split(',')[0])
-                const to = Number(value.split(',')[1])
-                return planeTime > from && planeTime < to;
-            })
-            this.$emit('setFlightsList', newList)
-        },
+            if (this.airport) {
+                newList = newList.filter(el=>{
+                    return el.org_airport_name == this.airport
+                })
+            }
 
-         // 选择航空公司时候触发
-        handleCompany(value){
-            console.log('选择了航空公司'+value);
-            // 这里进行真的筛选
-            const newList = this.flights.filter(el=>{
-                return el.airline_name == value
-            })
-            this.$emit('setFlightsList', newList)
-        },
+            if (this.flightTimes) {
+                newList = newList.filter(el=>{
+                    const planeTime = Number(el.dep_time.split(':')[0])
+                    const from = Number(this.flightTimes.split(',')[0])
+                    const to = Number(this.flightTimes.split(',')[1])
+                    return planeTime > from && planeTime < to;
+                })
+            }
+            
+            if (this.company) {
+                newList = newList.filter(el=>{
+                    return el.airline_name == this.company
+                })
+            }
 
-         // 选择机型时候触发
-        handleAirSize(value){
-           console.log('选中了机型');
-           console.log(value);
-           const newList = this.flights.filter(el=>{
-               return el.plane_size == value
-           })
-           this.$emit('setFlightsList', newList)
+            if (this.airSize) {
+                newList = newList.filter(el=>{
+                    return el.plane_size == this.airSize
+                })
+            }
+            
+
+            this.$emit('setFlightsList', newList)
         },
         
         // 撤销条件时候触发
