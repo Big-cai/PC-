@@ -9,7 +9,7 @@
                     <FlightsFilters
                     v-if="flightsData.options"
                     :options="flightsData.options"
-                    :flights='flightsData.flights'
+                    :flights='cacheFlightsList'
                     @setFlightsList="setFlightsList"
                 />
                 </div>
@@ -55,6 +55,7 @@ export default {
     data() {
         return {
             flightsData: {},
+            cacheFlightsList:[],
             // 机票分页数据
             // dataList: [],
             pageIndex: 1,
@@ -84,6 +85,8 @@ export default {
         }).then(res=>{
             console.log(res.data);
             this.flightsData = res.data
+            // 将飞机票列表先缓存起来
+            this.cacheFlightsList = res.data.flights
         })
     },
     methods: {
