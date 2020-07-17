@@ -20,6 +20,7 @@
                 <!-- 航班信息 -->
                 <div>
                     <FlightsItem :data="item" v-for="item in dataList" :key="item.id"/>
+                    <div v-if="flightsData.flights && flightsData.flights.length == 0">暂无数据</div>
                     <el-pagination
                         v-if="flightsData.flights"
                         @current-change="currentChange"
