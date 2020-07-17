@@ -19,7 +19,7 @@
                 
                 <!-- 航班信息 -->
                 <div>
-                    <FlightsItem :data="item" v-for="item in flightsData.flights" :key="item.id"/>
+                    <FlightsItem :data="item" v-for="item in dataList" :key="item.id"/>
                 </div>
             </div>
 
@@ -38,7 +38,11 @@ import FlightsItem from '@/components/air/FlightsItem'
 export default {
     data() {
         return {
-            flightsData: {}
+            flightsData: {},
+            // 机票分页数据
+            dataList: [],
+            pageIndex: 1,
+            pageSize: 10
         }
     },
     components: {
@@ -53,6 +57,10 @@ export default {
         }).then(res=>{
             console.log(res.data);
             this.flightsData = res.data
+
+            const beginIndex = (this.pageIndex - 1) * this.pageSize
+            const endIndex = beginIndex + this.pageSize
+            this.dataList = res.data.flights.slice(beginIndex, endIndex)
         })
     }
 }
