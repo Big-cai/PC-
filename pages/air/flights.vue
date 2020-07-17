@@ -8,7 +8,10 @@
                 <div>
                     <FlightsFilters
                     v-if="flightsData.options"
-                    :options="flightsData.options"/>
+                    :options="flightsData.options"
+                    :flights='flightsData.flights'
+                    @setFlightsList="setFlightsList"
+                />
                 </div>
                 
                 <!-- 航班头部布局 -->
@@ -89,6 +92,10 @@ export default {
         },
         sizeChange(newSize) {
             this.pageSize = newSize
+        },
+        setFlightsList(newList) {
+            console.log("收到了新的航班列表")
+            this.flightsData.flights = newList;
         }
     }
 }

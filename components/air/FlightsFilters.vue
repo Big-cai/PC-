@@ -20,9 +20,17 @@
             </el-col>
             <el-col :span="4">
                 <el-select size="mini" v-model="flightTimes"  placeholder="起飞时间" @change="handleFlightTimes">
+                    <!-- 对于起飞时间的 value 值其实并非固定,
+                    最终要飞机起飞时间大于 from 小于 to 才能放行
+                    最终是由我们自己进行比较和筛选
+                    这里的 value 可以我们自己定义格式
+                    只要后面的筛选按照这个格式去用就可以了
+                    如 6,12 -->
                     <el-option
-                    label="00:00 - 06:00"
-                    value="1"
+                    v-for="(item,index) in options.flightTimes"
+                    :key="index"
+                    :label="`${item.from}:00 - ${item.to}:00`"
+                    :value="`${item.from},${item.to}`"
                     >
                     </el-option>
                 </el-select>
@@ -65,7 +73,8 @@
 <script>
 export default {
     props: {
-        options: Object
+        options: Object,
+        flights: Array
     },
     data(){
         return {
@@ -102,7 +111,12 @@ export default {
 
          // 选择航空公司时候触发
         handleCompany(value){
-            
+            console.log('选择了航空公司'+value);
+            // 这里进行真的筛选
+            const newList = this.flights.filter(el=>{
+                return el.airline_name == value
+            })
+            this.$emit('setFlightsList', newList)
         },
 
          // 选择机型时候触发
