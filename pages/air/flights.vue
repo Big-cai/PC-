@@ -21,12 +21,13 @@
                 <div>
                     <FlightsItem :data="item" v-for="item in dataList" :key="item.id"/>
                     <el-pagination
+                        v-if="flightsData.flights"
                         @current-change="currentChange"
                         @size-change="sizeChange"
                         :page-size="pageSize"
                         :page-sizes="[2,5,10,20,50]"
-                        layout="sizes, prev, pager, next"
-                        :total="50">
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="flightsData.flights.length">
                     </el-pagination>
                 </div>
             </div>
