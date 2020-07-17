@@ -43,7 +43,6 @@
                 <nuxt-link v-else to="/user/login" class="account-link">
                     登录 / 注册 
                 </nuxt-link>
-                {{msg}}
             </el-row>
         </el-row>
     </header>
