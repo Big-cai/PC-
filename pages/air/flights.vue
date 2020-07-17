@@ -50,9 +50,19 @@ export default {
         return {
             flightsData: {},
             // 机票分页数据
-            dataList: [],
+            // dataList: [],
             pageIndex: 1,
             pageSize: 10
+        }
+    },
+    computed: {
+        dataList() {
+            if (!this.flightsData.flights) {
+                return []
+            }
+            const beginIndex = (this.pageIndex - 1) * this.pageSize
+            const endIndex = beginIndex + this.pageSize
+            return this.flightsData.flights.slice(beginIndex, endIndex)
         }
     },
     components: {
@@ -67,24 +77,14 @@ export default {
         }).then(res=>{
             console.log(res.data);
             this.flightsData = res.data
-
-            const beginIndex = (this.pageIndex - 1) * this.pageSize
-            const endIndex = beginIndex + this.pageSize
-            this.dataList =  this.flightsData.flights.slice(beginIndex, endIndex)
         })
     },
     methods: {
         currentChange(newIndex) {
             this.pageIndex = newIndex
-            const beginIndex = (this.pageIndex - 1) * this.pageSize
-            const endIndex = beginIndex + this.pageSize
-            this.dataList =  this.flightsData.flights.slice(beginIndex, endIndex)
         },
         sizeChange(newSize) {
             this.pageSize = newSize
-            const beginIndex = (this.pageIndex - 1) * this.pageSize
-            const endIndex = beginIndex + this.pageSize
-            this.dataList =  this.flightsData.flights.slice(beginIndex, endIndex)
         }
     }
 }
