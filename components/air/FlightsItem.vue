@@ -13,7 +13,7 @@
                             <span>{{data.org_airport_name}} {{data.org_airport_quay}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-time">
-                            <span>2时20分(伪)</span>
+                            <span>{{duration}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-airport">
                             <strong>{{data.arr_time}}</strong>
@@ -62,7 +62,20 @@
 
 <script>
 export default {
+    computed: {
+        duration() {
+            // 1. 先转为分钟
+            let arrTimeArray = this.data.arr_time.split(':')
+            let arrMinute = Number(arrTimeArray[0]) * 60 + Number(arrTimeArray[1])
 
+            let depTimeArray = this.data.dep_time.split(':')
+            let depMinute = Number(depTimeArray[0]) * 60 + Number(depTimeArray[1])
+
+            let diff = arrMinute - depMinute
+            return Math.floor(diff/60) + '小时' + diff % 60 + '分钟'
+            // 2.相减
+        }
+    },
     props: {
         // 数据
         data: {
