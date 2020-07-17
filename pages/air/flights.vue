@@ -20,6 +20,14 @@
                 <!-- 航班信息 -->
                 <div>
                     <FlightsItem :data="item" v-for="item in dataList" :key="item.id"/>
+                    <el-pagination
+                        @current-change="currentChange"
+                        @size-change="sizeChange"
+                        :page-size="pageSize"
+                        :page-sizes="[2,5,10,20,50]"
+                        layout="sizes, prev, pager, next"
+                        :total="50">
+                    </el-pagination>
                 </div>
             </div>
 
@@ -60,8 +68,22 @@ export default {
 
             const beginIndex = (this.pageIndex - 1) * this.pageSize
             const endIndex = beginIndex + this.pageSize
-            this.dataList = res.data.flights.slice(beginIndex, endIndex)
+            this.dataList =  this.flightsData.flights.slice(beginIndex, endIndex)
         })
+    },
+    methods: {
+        currentChange(newIndex) {
+            this.pageIndex = newIndex
+            const beginIndex = (this.pageIndex - 1) * this.pageSize
+            const endIndex = beginIndex + this.pageSize
+            this.dataList =  this.flightsData.flights.slice(beginIndex, endIndex)
+        },
+        sizeChange(newSize) {
+            this.pageSize = newSize
+            const beginIndex = (this.pageIndex - 1) * this.pageSize
+            const endIndex = beginIndex + this.pageSize
+            this.dataList =  this.flightsData.flights.slice(beginIndex, endIndex)
+        }
     }
 }
 </script>
