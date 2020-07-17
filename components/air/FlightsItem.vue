@@ -2,7 +2,7 @@
     <div class="flight-item">
         <div>
             <!-- 显示的机票信息 -->
-            <el-row type="flex" align="middle" class="flight-info">
+            <el-row type="flex" align="middle" class="flight-info" @click.native="isShowSeat = !isShowSeat">
                 <el-col :span="6">
                     <span>{{data.airline_name}} </span> {{data.flight_no}}
                 </el-col>
@@ -26,7 +26,7 @@
                 </el-col>
             </el-row>
         </div>
-        <div class="flight-recommend">
+        <div class="flight-recommend" v-if="isShowSeat">
             <!-- 隐藏的座位信息列表 -->
             <el-row type="flex"  justify="space-between" align="middle">
                 <el-col :span="4">低价推荐</el-col>
@@ -81,6 +81,11 @@ export default {
             
             return Math.floor(diff/60) + '小时' + diff % 60 + '分钟'
             // 2.相减
+        }
+    },
+    data() {
+        return {
+            isShowSeat: false
         }
     },
     props: {
