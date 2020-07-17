@@ -6,7 +6,9 @@
             <div class="flights-content">
                 <!-- 过滤条件 -->
                 <div>
-                    <FlightsFilters/>
+                    <FlightsFilters
+                    v-if="flightsData.options"
+                    :options="flightsData.options"/>
                 </div>
                 
                 <!-- 航班头部布局 -->
