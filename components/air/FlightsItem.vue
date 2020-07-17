@@ -72,6 +72,13 @@ export default {
             let depMinute = Number(depTimeArray[0]) * 60 + Number(depTimeArray[1])
 
             let diff = arrMinute - depMinute
+
+            // 对于跨域凌晨的航班来说, 由于刚好零点的时间计算有出入, 会少了 24 小时, 变成负数, 
+            // 一旦发现负数, 就重新加上 24 小时即可
+            if (diff < 0) {
+                diff += 24 * 60;
+            }
+            
             return Math.floor(diff/60) + '小时' + diff % 60 + '分钟'
             // 2.相减
         }
