@@ -101,12 +101,22 @@ export default {
     methods: {
         // 选择机场时候触发
         handleAirport(value){
-            
+            const newList = this.flights.filter(el=>{
+                return el.org_airport_name == value
+            })
+            this.$emit('setFlightsList', newList)
         },
 
         // 选择出发时间时候触发
         handleFlightTimes(value){
-            
+            console.log(value);
+            const newList = this.flights.filter(el=>{
+                const planeTime = Number(el.dep_time.split(':')[0])
+                const from = Number(value.split(',')[0])
+                const to = Number(value.split(',')[1])
+                return planeTime > from && planeTime < to;
+            })
+            this.$emit('setFlightsList', newList)
         },
 
          // 选择航空公司时候触发
@@ -121,7 +131,12 @@ export default {
 
          // 选择机型时候触发
         handleAirSize(value){
-           
+           console.log('选中了机型');
+           console.log(value);
+           const newList = this.flights.filter(el=>{
+               return el.plane_size == value
+           })
+           this.$emit('setFlightsList', newList)
         },
         
         // 撤销条件时候触发
