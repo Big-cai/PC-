@@ -43,12 +43,23 @@
                 <nuxt-link v-else to="/user/login" class="account-link">
                     登录 / 注册 
                 </nuxt-link>
+                {{msg}}
             </el-row>
         </el-row>
     </header>
 </template>
 <script>
 export default {
+    data() {
+        return {
+            msg: '还什么都没有没有'
+        }
+    },
+    mounted() {
+        this.$EventBus.$on('biubiubiu', ()=>{
+            this.msg = "收到了通知, 登陆完啦"
+        })
+    },
     methods: {
         // 用户退出
         handleLogout(){

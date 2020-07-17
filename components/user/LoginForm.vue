@@ -103,6 +103,7 @@ export default {
                     // 所以所有的请求结果都在 vuex 里面
                     // 如果想要得到这些请求结果其实是可以的
                     // 1. vuex action 将 promise 返回出来
+                    this.$EventBus.$emit('biubiubiu')
                     this.$store.dispatch('user/login', this.form).then(res=>{
                         // 这里可以做进一步的个性化处理
                         // 2. 如果个性化处理需要用到请求的结果
