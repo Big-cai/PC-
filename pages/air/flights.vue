@@ -6,8 +6,7 @@
             <div class="flights-content">
                 <!-- 过滤条件 -->
                 <div>
-                    过滤条件
-                    
+                    <FlightsFilters/>
                 </div>
                 
                 <!-- 航班头部布局 -->
@@ -45,6 +44,8 @@
 <script>
 import FlightsListHead from '@/components/air/FlightsListHead'
 import FlightsItem from '@/components/air/FlightsItem'
+import FlightsFilters from '@/components/air/FlightsFilters'
+
 export default {
     data() {
         return {
@@ -67,7 +68,8 @@ export default {
     },
     components: {
         FlightsListHead,
-        FlightsItem
+        FlightsItem,
+        FlightsFilters
     },
     created() {
         // 现在所有的参数都在 URL 直接发送请求
