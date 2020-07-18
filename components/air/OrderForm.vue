@@ -3,7 +3,7 @@
         <div class="air-column">
             <h2>乘机人</h2>
             <el-form class="member-info">
-                <div class="member-info-item" >
+                <div class="member-info-item" v-for="(user, index) in users" :key="index">
 
                     <el-form-item label="乘机人类型">
                         <el-input placeholder="姓名" class="input-with-select" v-model="user.username">
@@ -43,10 +43,16 @@
 export default {
     data() {
         return {
-            user: {
-                username: '',
-                id: ''
-            }
+            users: [
+                {
+                    username: '',
+                    id: ''
+                },
+                {
+                    username: '',
+                    id: ''
+                }
+            ]
         }
     },
     methods: {
