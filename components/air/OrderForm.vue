@@ -6,7 +6,7 @@
                 <div class="member-info-item" >
 
                     <el-form-item label="乘机人类型">
-                        <el-input placeholder="姓名" class="input-with-select">
+                        <el-input placeholder="姓名" class="input-with-select" v-model="user.username">
                             <el-select 
                             slot="prepend" 
                             value="1" 
@@ -18,7 +18,7 @@
 
                     <el-form-item label="证件类型">
                         <el-input 
-                        placeholder="证件号码"  class="input-with-select">
+                        placeholder="证件号码"  class="input-with-select" v-model="user.id">
                             <el-select 
                             slot="prepend" 
                             value="1"           
@@ -35,46 +35,20 @@
             <el-button class="add-member" type='primary' @click="handleAddUsers">添加乘机人</el-button>
         </div>
 
-        <div class="air-column">
-            <h2>保险</h2>
-            <div>
-                <div class="insurance-item">
-                    <el-checkbox 
-                    label="航空意外险：￥30/份×1  最高赔付260万" 
-                    border>
-                    </el-checkbox> 
-                </div>
-            </div>
-        </div>
-
-        <div class="air-column">
-            <h2>联系人</h2>
-            <div class="contact">
-                <el-form label-width="60px">
-                    <el-form-item label="姓名">
-                        <el-input></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="手机">
-                        <el-input placeholder="请输入内容">
-                            <template slot="append">
-                            <el-button @click="handleSendCaptcha">发送验证码</el-button>
-                            </template>
-                        </el-input>
-                    </el-form-item>
-
-                    <el-form-item label="验证码">
-                        <el-input></el-input>
-                    </el-form-item>
-                </el-form>   
-                <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
-            </div>
-        </div>
+       <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
     </div>
 </template>
 
 <script>
 export default {
+    data() {
+        return {
+            user: {
+                username: '',
+                id: ''
+            }
+        }
+    },
     methods: {
         // 添加乘机人
         handleAddUsers(){
@@ -93,7 +67,7 @@ export default {
 
         // 提交订单
         handleSubmit(){
-            
+            console.log(this.user);
         }
     }
 }
