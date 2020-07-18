@@ -199,17 +199,23 @@ export default {
         // 提交表单是触发
         handleSubmit(){
             console.log(this.form);
+            // 现在不仅仅发起跳转, 还要把搜索内容记录在 vuex 上面
+            // 1. 提取参数对象
+            const query = {
+                departCity: this.form.departCity.replace(/市$/, ''),
+                departCode: this.form.departCode,
+                destCity: this.form.destCity.replace(/市$/, ''),
+                destCode: this.form.destCode,
+                departDate: this.form.departDate
+            }
+            // 2.讲这个搜索参数对象存放进 vuex 历史记录当中
+            // 就要修改 state
+            this.$store.commit('history/addHistory', query)
             // 利用编程式导航跳转页面
             this.$router.push({
                 path: '/air/flights',
                 // query: this.form
-                query: {
-                    departCity: this.form.departCity.replace(/市$/, ''),
-                    departCode: this.form.departCode,
-                    destCity: this.form.destCity.replace(/市$/, ''),
-                    destCode: this.form.destCode,
-                    departDate: this.form.departDate
-                }
+                query
             })
         }
     },
