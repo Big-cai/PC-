@@ -72,6 +72,11 @@ export default {
             return this.flightsData.flights.slice(beginIndex, endIndex)
         }
     },
+    watch:{
+        $route() {
+            this.loadPage();
+        }
+    },
     components: {
         FlightsListHead,
         FlightsItem,
@@ -80,17 +85,20 @@ export default {
     },
     created() {
         // 现在所有的参数都在 URL 直接发送请求
-        this.$axios({
-            url: '/airs',
-            params: this.$route.query
-        }).then(res=>{
-            console.log(res.data);
-            this.flightsData = res.data
-            // 将飞机票列表先缓存起来
-            this.cacheFlightsList = res.data.flights
-        })
+        this.loadPage();
     },
     methods: {
+        loadPage() {
+            this.$axios({
+                url: '/airs',
+                params: this.$route.query
+            }).then(res=>{
+                console.log(res.data);
+                this.flightsData = res.data
+                // 将飞机票列表先缓存起来
+                this.cacheFlightsList = res.data.flights
+            })
+        },
         currentChange(newIndex) {
             this.pageIndex = newIndex
         },
