@@ -28,7 +28,7 @@
                         </el-input>
                     </el-form-item>
 
-                    <span class="delete-user" @click="handleDeleteUser()">-</span>
+                    <span class="delete-user" @click="handleDeleteUser(index)">-</span>
                 </div>
             </el-form>
 
@@ -44,10 +44,7 @@ export default {
     data() {
         return {
             users: [
-                {
-                    username: '',
-                    id: ''
-                },
+                // 原始数据只有一个乘机人
                 {
                     username: '',
                     id: ''
@@ -58,12 +55,15 @@ export default {
     methods: {
         // 添加乘机人
         handleAddUsers(){
-            
+            this.users.push({
+                username: '',
+                id: ''
+            })
         },
         
         // 移除乘机人
-        handleDeleteUser(){
-
+        handleDeleteUser(index){
+            this.users.splice(index, 1)
         },
         
         // 发送手机验证码
@@ -73,7 +73,7 @@ export default {
 
         // 提交订单
         handleSubmit(){
-            console.log(this.user);
+            console.log(this.users);
         }
     }
 }
