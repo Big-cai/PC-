@@ -114,7 +114,7 @@ export default {
                     const planeTime = Number(el.dep_time.split(':')[0])
                     const from = Number(this.flightTimes.split(',')[0])
                     const to = Number(this.flightTimes.split(',')[1])
-                    return planeTime > from && planeTime < to;
+                    return planeTime >= from && planeTime < to;
                 })
             }
             
