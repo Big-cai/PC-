@@ -49,7 +49,9 @@
                             <el-col :span="3" class="choose-button">
                                 <el-button 
                                 type="warning" 
-                                size="mini">
+                                size="mini"
+                                @click="sendOrder(item)"
+                                >
                                 选定
                                 </el-button>
                                 <p v-if="item.nums != 'A'">剩余：{{item.nums}}</p>
@@ -98,6 +100,14 @@ export default {
             default: () => {
                 return {}
             }
+        }
+    },
+    methods:{
+        sendOrder(seat) {
+            console.log('点击了仓位的选择');
+            console.log('当前飞机的 id ' + this.data.id)
+            console.log('当前座位 id ' + seat.seat_xid)
+            this.$router.push(`/air/order?id=${this.data.id}&seat_xid=${seat.seat_xid}`)
         }
     }
 }
