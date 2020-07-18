@@ -39,8 +39,7 @@
 
             <!-- 侧边栏 -->
             <div class="aside">
-                侧边栏
-                <!-- 侧边栏组件 -->
+                <FlightsAside/>
             </div>
         </el-row>
     </section>
@@ -50,6 +49,7 @@
 import FlightsListHead from '@/components/air/FlightsListHead'
 import FlightsItem from '@/components/air/FlightsItem'
 import FlightsFilters from '@/components/air/FlightsFilters'
+import FlightsAside from '@/components/air/FlightsAside'
 
 export default {
     data() {
@@ -75,7 +75,8 @@ export default {
     components: {
         FlightsListHead,
         FlightsItem,
-        FlightsFilters
+        FlightsFilters,
+        FlightsAside
     },
     created() {
         // 现在所有的参数都在 URL 直接发送请求
