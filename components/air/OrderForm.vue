@@ -128,6 +128,10 @@ export default {
         // 声明时就是一个对象, 原来的函数被套在 handler 属性里面
         // 另外可以添加其他属性
         // 设置 immediate 可以让监听器一开始就执行一次
+
+        // deep 跟 immediate 是监听器的两个属性
+        // deep 深度监听, 主要是解决, 对于一些对象内部属性变化无法监听的问题
+        // immediate 是告诉监听器一进来就马上运行一次
         users: {
             handler() {
                 console.log('users 发生了变化');
