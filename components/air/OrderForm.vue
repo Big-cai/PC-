@@ -145,6 +145,7 @@ export default {
             });
             console.log('计算出的总价格等于');
             console.log(res);
+            this.$emit('setTotalPrice', res)
         },
         // 添加乘机人
         handleAddUsers(){

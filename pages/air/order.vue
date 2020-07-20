@@ -2,10 +2,10 @@
     <div class="container">
         <el-row type="flex" justify="space-between">
             <!-- 订单表单 -->
-            <OrderForm v-if="ticketData" :data="ticketData"/>
+            <OrderForm v-if="ticketData" :data="ticketData" @setTotalPrice="setTotalPrice"/>
 
             <!-- 侧边栏 -->
-            <OrderAside v-if="ticketData" :data="ticketData" />
+            <OrderAside v-if="ticketData" :data="ticketData" :totalPrice="totalPrice"/>
         </el-row>
     </div>
 </template>
@@ -20,7 +20,8 @@ export default {
     },
     data() {
         return {
-            ticketData: null
+            ticketData: null,
+            totalPrice: 0
         }
     },
     created() {
@@ -33,6 +34,11 @@ export default {
             console.log(res.data);
             this.ticketData = res.data
         })
+    },
+    methods: {
+        setTotalPrice(totalPrice) {
+            this.totalPrice = totalPrice
+        }
     }
 }
 </script>
