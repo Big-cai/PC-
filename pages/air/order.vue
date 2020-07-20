@@ -5,18 +5,18 @@
             <OrderForm v-if="ticketData" :data="ticketData"/>
 
             <!-- 侧边栏 -->
-            <div class="aside">
-                侧边栏      
-            </div>
+            <OrderAside/>
         </el-row>
     </div>
 </template>
 
 <script>
 import OrderForm from '@/components/air/OrderForm'
+import OrderAside from '@/components/air/orderAside'
 export default {
     components: {
-        OrderForm
+        OrderForm,
+        OrderAside
     },
     data() {
         return {
