@@ -92,6 +92,7 @@
                 <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
             </div>
         </div>
+        <div style="display:none">{{totalPrice}}</div>
     </div>
 </template>
 
@@ -116,59 +117,24 @@ export default {
             captcha: ''
         }
     },
-    // mounted() {
-    //     // 一进来就调用一次计算总价的方法, 
-    //     // 可以避免数据变化后监听器才出发的问题
-    //     this.calcTotalPrice();
-    // },
-    watch: {
-        // 对于 watch 监听器的声明来说, 如果只有一个函数, 没有任何其他选项需要声明
-        // 那么直接写函数就可以了
-        // 如果有其他属性需要设置, 比如需要深度监听
-        // 声明时就是一个对象, 原来的函数被套在 handler 属性里面
-        // 另外可以添加其他属性
-        // 设置 immediate 可以让监听器一开始就执行一次
-
-        // deep 跟 immediate 是监听器的两个属性
-        // deep 深度监听, 主要是解决, 对于一些对象内部属性变化无法监听的问题
-        // immediate 是告诉监听器一进来就马上运行一次
-        users: {
-            handler() {
-                console.log('users 发生了变化');
-                // 每当乘机人发生了变化, 需要重新计算一个总价格
-                this.calcTotalPrice()
-            },
-            // deep: true,
-            immediate: true
-        },
-        insuranceList: {
-            handler() {
-                console.log('保险发生了变化');
-                // 每当保险发生了变化, 需要重新计算一个总价格
-                this.calcTotalPrice()
-            },
-            immediate: true
-        }
-    },
-    methods: {
-        calcTotalPrice() {
-            // 计算总价格的函数
-            // 1. 加上所有乘机人的机票钱
+    computed: {
+        totalPrice() {
+            console.log('运行了计算属性');
             let res = 0;
-            // 机票价格 为 this.data.seat_infos.org_settle_price
+
             res += this.data.seat_infos.org_settle_price * this.users.length
 
-            // 2. 计算所有乘机人的保险钱
-            // 遍历保险, 如果发现id存在于被选中的列表中, 就要乘以乘机人数量, 添加到结果中
             this.data.insurances.forEach(element => {
                 if (this.insuranceList.indexOf(element.id) >= 0) {
                     res += element.price * this.users.length
                 }
             });
-            console.log('计算出的总价格等于');
-            console.log(res);
+            
             this.$emit('setTotalPrice', res)
-        },
+            return res
+        }
+    },
+    methods: {  
         // 添加乘机人
         handleAddUsers(){
             this.users.push({
