@@ -69,7 +69,29 @@
             </div>
         </div>
 
-       <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
+        <div class="air-column">
+            <h2>联系人</h2>
+            <div class="contact">
+                <el-form label-width="60px">
+                    <el-form-item label="姓名">
+                        <el-input v-model="contactName"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="手机">
+                        <el-input placeholder="请输入内容" v-model="contactPhone">
+                            <template slot="append">
+                            <el-button @click="handleSendCaptcha">发送验证码</el-button>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+
+                    <el-form-item label="验证码">
+                        <el-input v-model="captcha"></el-input>
+                    </el-form-item>
+                </el-form>   
+                <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -88,7 +110,10 @@ export default {
                 }
             ],
             // 保险选项数据
-            insuranceList: []
+            insuranceList: [],
+            contactName: '',
+            contactPhone:'',
+            captcha: ''
         }
     },
     methods: {
