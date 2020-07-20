@@ -116,7 +116,36 @@ export default {
             captcha: ''
         }
     },
+    watch: {
+        users() {
+            console.log('users 发生了变化');
+            // 每当乘机人发生了变化, 需要重新计算一个总价格
+            this.calcTotalPrice()
+        },
+        insuranceList() {
+            console.log('保险发生了变化');
+            // 每当保险发生了变化, 需要重新计算一个总价格
+            this.calcTotalPrice()
+        }
+    },
     methods: {
+        calcTotalPrice() {
+            // 计算总价格的函数
+            // 1. 加上所有乘机人的机票钱
+            let res = 0;
+            // 机票价格 为 this.data.seat_infos.org_settle_price
+            res += this.data.seat_infos.org_settle_price * this.users.length
+
+            // 2. 计算所有乘机人的保险钱
+            // 遍历保险, 如果发现id存在于被选中的列表中, 就要乘以乘机人数量, 添加到结果中
+            this.data.insurances.forEach(element => {
+                if (this.insuranceList.indexOf(element.id) >= 0) {
+                    res += element.price * this.users.length
+                }
+            });
+            console.log('计算出的总价格等于');
+            console.log(res);
+        },
         // 添加乘机人
         handleAddUsers(){
             this.users.push({
