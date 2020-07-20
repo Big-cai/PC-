@@ -132,7 +132,22 @@ export default {
         
         // 发送手机验证码
         handleSendCaptcha(){
-            
+            if (!this.contactPhone) {
+                this.$message.error('请先输入手机号')
+                return
+            }
+            this.$axios({
+                method: 'post',
+                url: '/captchas',
+                data: {
+                    tel: this.contactPhone
+                }
+            }).then(res=>{
+                console.log(res);
+                if (res.data.code == '000000') {
+                    this.$message.success('验证码已经发送')
+                }
+            })
         },
 
         // 提交订单
