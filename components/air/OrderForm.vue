@@ -35,12 +35,49 @@
             <el-button class="add-member" type='primary' @click="handleAddUsers">添加乘机人</el-button>
         </div>
 
+        <div class="air-column">
+            <h2>保险</h2>
+            <div>
+                <!-- <div 
+                class="insurance-item"
+                v-for="(item, index) in data.insurances"
+                :key="index">
+                    <el-checkbox 
+                    :label="`${item.type}：￥${item.price}/份×${users.length}  最高赔付${item.compensation}`" 
+                    border>
+                    </el-checkbox> 
+                    
+                </div> -->
+                <!-- 由于保险数据, 最终发送订单时 需要的是
+                已选中的保险 id 组成的数组
+                就要用这个多选框组组件 -->
+
+                <el-checkbox-group v-model="insuranceList">
+                    <div 
+                    class="insurance-item"
+                    v-for="(item, index) in data.insurances"
+                    :key="index">
+                        <!-- 对于 checkbox 来说, label 是最终存放在数组中供接口使用的数据
+                        如果我们希望显示不一样的内容给用户, 就放在开闭标签之间 -->
+                        <el-checkbox 
+                        :label="item.id" 
+                        border>
+                        {{`${item.type}：￥${item.price}/份×${users.length}  最高赔付${item.compensation}`}}
+                        </el-checkbox> 
+                    </div>
+                </el-checkbox-group>
+            </div>
+        </div>
+
        <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
     </div>
 </template>
 
 <script>
 export default {
+    props: {
+        data: Object
+    },
     data() {
         return {
             users: [
@@ -49,7 +86,9 @@ export default {
                     username: '',
                     id: ''
                 }
-            ]
+            ],
+            // 保险选项数据
+            insuranceList: []
         }
     },
     methods: {
@@ -73,7 +112,7 @@ export default {
 
         // 提交订单
         handleSubmit(){
-            console.log(this.users);
+            console.log(this.insuranceList);
         }
     }
 }

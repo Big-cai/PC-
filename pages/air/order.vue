@@ -2,7 +2,7 @@
     <div class="container">
         <el-row type="flex" justify="space-between">
             <!-- 订单表单 -->
-            <OrderForm/>
+            <OrderForm v-if="ticketData" :data="ticketData"/>
 
             <!-- 侧边栏 -->
             <div class="aside">
@@ -18,6 +18,11 @@ export default {
     components: {
         OrderForm
     },
+    data() {
+        return {
+            ticketData: null
+        }
+    },
     created() {
         this.$axios({
             url: '/airs/' + this.$route.query.id,
@@ -26,6 +31,7 @@ export default {
             }
         }).then(res=>{
             console.log(res.data);
+            this.ticketData = res.data
         })
     }
 }
