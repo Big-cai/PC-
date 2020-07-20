@@ -5,7 +5,7 @@
             <OrderForm v-if="ticketData" :data="ticketData"/>
 
             <!-- 侧边栏 -->
-            <OrderAside/>
+            <OrderAside v-if="ticketData" :data="ticketData" />
         </el-row>
     </div>
 </template>
