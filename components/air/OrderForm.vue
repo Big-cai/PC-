@@ -152,7 +152,31 @@ export default {
 
         // 提交订单
         handleSubmit(){
-            console.log(this.insuranceList);
+            // 1. 拼接订单数据
+            let data = {
+                users: this.users,
+                insurances: this.insuranceList,
+                contactName: this.contactName,
+                contactPhone: this.contactPhone,
+                invoice: false,
+                seat_xid: this.$route.query.seat_xid,
+                air: this.$route.query.id,
+                captcha: this.captcha
+            }
+
+            console.log(data);
+
+            // 2. 提交订单
+            this.$axios({
+                method: 'post',
+                url: '/airorders',
+                data,
+                headers: {
+                    Authorization: 'Bearer ' + this.$store.state.user.userInfo.token
+                }
+            }).then(res=>{
+                console.log(res.data);
+            })
         }
     }
 }
