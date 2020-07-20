@@ -17,6 +17,16 @@ import OrderForm from '@/components/air/OrderForm'
 export default {
     components: {
         OrderForm
+    },
+    created() {
+        this.$axios({
+            url: '/airs/' + this.$route.query.id,
+            params: {
+                seat_xid: this.$route.query.seat_xid
+            }
+        }).then(res=>{
+            console.log(res.data);
+        })
     }
 }
 </script>
