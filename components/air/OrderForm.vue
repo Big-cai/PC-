@@ -116,16 +116,34 @@ export default {
             captcha: ''
         }
     },
+    // mounted() {
+    //     // 一进来就调用一次计算总价的方法, 
+    //     // 可以避免数据变化后监听器才出发的问题
+    //     this.calcTotalPrice();
+    // },
     watch: {
-        users() {
-            console.log('users 发生了变化');
-            // 每当乘机人发生了变化, 需要重新计算一个总价格
-            this.calcTotalPrice()
+        // 对于 watch 监听器的声明来说, 如果只有一个函数, 没有任何其他选项需要声明
+        // 那么直接写函数就可以了
+        // 如果有其他属性需要设置, 比如需要深度监听
+        // 声明时就是一个对象, 原来的函数被套在 handler 属性里面
+        // 另外可以添加其他属性
+        // 设置 immediate 可以让监听器一开始就执行一次
+        users: {
+            handler() {
+                console.log('users 发生了变化');
+                // 每当乘机人发生了变化, 需要重新计算一个总价格
+                this.calcTotalPrice()
+            },
+            // deep: true,
+            immediate: true
         },
-        insuranceList() {
-            console.log('保险发生了变化');
-            // 每当保险发生了变化, 需要重新计算一个总价格
-            this.calcTotalPrice()
+        insuranceList: {
+            handler() {
+                console.log('保险发生了变化');
+                // 每当保险发生了变化, 需要重新计算一个总价格
+                this.calcTotalPrice()
+            },
+            immediate: true
         }
     },
     methods: {
