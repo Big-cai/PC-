@@ -122,9 +122,11 @@
                         <el-input v-model="captcha"></el-input>
                     </el-form-item>
                 </el-form>   
-                <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
-
+                <!-- 已经登录显示按钮 -->
+                <el-button v-if="$store.state.user.userInfo.token" type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
+                <!-- 未登录显示表单 -->
                 <el-row 
+                v-else
                 type="flex" 
                 justify="center" 
                 align="middle" 
