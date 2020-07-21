@@ -12,7 +12,7 @@
                 class="pay-qrcode">
                     <div class="qrcode">
                         <!-- 二维码 -->
-                        <canvas id="qrcode-stage"></canvas>
+                        <canvas id="qrcode-stage" ref="canvas"></canvas>
                         <p>请使用微信扫一扫</p>
                         <p>扫描二维码支付</p>
                     </div>
@@ -26,6 +26,9 @@
 </template>
 
 <script>
+// 安装二维码插件后引入
+import QRCode from 'qrcode'
+
 export default {
     data() {
         return {
@@ -52,6 +55,14 @@ export default {
                     }).then(res=>{
                         console.log(res.data);
                         this.orderData = res.data
+                        // 已经获取完了数据, 有了支付链接
+                        // 可以生成二维码了
+                        // QRCode.toCanvas 是生成二维码的函数
+                        // 其中接收两个必要参数, 
+                        // 1. 是需要显示二维码的 canvas
+                        // 2. 是需要变为二维码的字符串
+                        // 第三个是一个可选的配置对象, 其中 width 属性可以控制宽度
+                        QRCode.toCanvas(this.$refs.canvas, res.data.payInfo.code_url, {width: 200})
                     })
                 }
             },
