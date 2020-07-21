@@ -2,10 +2,23 @@
     <div class="main">
         <div class="air-column">
             <h2>乘机人</h2>
-            <el-form class="member-info">
+            <el-form class="member-info" :model="{
+                users: users
+            }">
+              
                 <div class="member-info-item" v-for="(user, index) in users" :key="index">
 
-                    <el-form-item label="乘机人类型">
+                    <el-form-item 
+                        label="乘机人类型" 
+                        :prop="`users[${index}].username`"
+                        :rules="[
+                            {
+                                required: true,
+                                message: '请输入乘机人姓名',
+                                trigger: 'blur'
+                            }
+                        ]"
+                    >
                         <el-input placeholder="姓名" class="input-with-select" v-model="user.username">
                             <el-select 
                             slot="prepend" 
@@ -16,7 +29,22 @@
                         </el-input>
                     </el-form-item>
 
-                    <el-form-item label="证件类型">
+                    <el-form-item 
+                        label="证件类型"
+                        :prop="`users[${index}].id`"
+                        :rules="[
+                            {
+                                required: true,
+                                message: '请输入身份证号',
+                                trigger: 'blur'
+                            },
+                            {
+                                pattern: /^\d{18}$/,
+                                message: '身份证不合法',
+                                trigger: 'blur'
+                            },
+                        ]"
+                    >
                         <el-input 
                         placeholder="证件号码"  class="input-with-select" v-model="user.id">
                             <el-select 
