@@ -292,6 +292,12 @@ export default {
                     }
                 }).then(res=>{
                     console.log(res.data);
+                    if (res.data.message == '订单提交成功') {
+                        this.$message.success(res.data.message)
+                        setTimeout(() => {
+                            this.$router.push('/air/pay?id='+res.data.data.id)
+                        }, 800);
+                    }
                 })
             }
         }

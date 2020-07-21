@@ -2,7 +2,7 @@
     <div class="container">
         <div class="main">
             <div class="pay-title">
-                支付总金额 <span class="pay-price">￥ 1000</span>
+                支付总金额 <span class="pay-price">￥ {{orderData.price}}</span>
             </div>
             <div class="pay-main">
                 <h4>微信支付</h4>
@@ -27,7 +27,37 @@
 
 <script>
 export default {
-    
+    data() {
+        return {
+            orderData: {}
+        }
+    },
+    created() {
+        
+    },
+    watch: {
+        '$store.state.user.userInfo.token': {
+            handler: function () {
+                // 一进来就尝试一次, 
+                // 每当 token 有变化都会再次执行
+                if (this.$store.state.user.userInfo.token) {  
+                    // 1. 如果是别的页面进来, vuex 本来就有, 第一次执行就得出结果
+                    // 2. 如果是刷新, 一进来会执行一次, 发现没数据, 不会执行
+                    // 等到 vuex 被本地储存恢复, 发生变化,再次执行, 出现数据   
+                    this.$axios({
+                        url: '/airorders/' + this.$route.query.id,
+                        headers: {
+                            Authorization: "Bearer " + this.$store.state.user.userInfo.token
+                        }
+                    }).then(res=>{
+                        console.log(res.data);
+                        this.orderData = res.data
+                    })
+                }
+            },
+            immediate: true
+        }
+    }
 }
 </script>
 
