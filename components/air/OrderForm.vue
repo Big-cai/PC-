@@ -2,7 +2,7 @@
     <div class="main">
         <div class="air-column">
             <h2>乘机人</h2>
-            <el-form class="member-info" :model="{
+            <el-form ref="usersForm" class="member-info" :model="{
                 users: users
             }">
               
@@ -100,7 +100,7 @@
         <div class="air-column">
             <h2>联系人</h2>
             <div class="contact">
-                <el-form label-width="68px" :model="{
+                <el-form ref="contactForm" label-width="68px" :model="{
                         contactName,
                         contactPhone,
                         captcha
@@ -225,32 +225,40 @@ export default {
         },
 
         // 提交订单
-        handleSubmit(){
-            // 1. 拼接订单数据
-            let data = {
-                users: this.users,
-                insurances: this.insuranceList,
-                contactName: this.contactName,
-                contactPhone: this.contactPhone,
-                invoice: false,
-                seat_xid: this.$route.query.seat_xid,
-                air: this.$route.query.id,
-                captcha: this.captcha
-            }
+        async handleSubmit(){
+            // this.$refs.usersForm.validate().then(isValid=>{
+            //     // promise 形式
+            // })
+            let isValidUsersForm = await this.$refs.usersForm.validate().catch(e=>{});
+            let isValidContactForm = await this.$refs.contactForm.validate().catch(e=>{});
 
-            console.log(data);
-
-            // 2. 提交订单
-            this.$axios({
-                method: 'post',
-                url: '/airorders',
-                data,
-                headers: {
-                    Authorization: 'Bearer ' + this.$store.state.user.userInfo.token
+            if ( isValidUsersForm && isValidContactForm ) {
+                // 1. 拼接订单数据
+                let data = {
+                    users: this.users,
+                    insurances: this.insuranceList,
+                    contactName: this.contactName,
+                    contactPhone: this.contactPhone,
+                    invoice: false,
+                    seat_xid: this.$route.query.seat_xid,
+                    air: this.$route.query.id,
+                    captcha: this.captcha
                 }
-            }).then(res=>{
-                console.log(res.data);
-            })
+
+                console.log(data);
+
+                // 2. 提交订单
+                this.$axios({
+                    method: 'post',
+                    url: '/airorders',
+                    data,
+                    headers: {
+                        Authorization: 'Bearer ' + this.$store.state.user.userInfo.token
+                    }
+                }).then(res=>{
+                    console.log(res.data);
+                })
+            }
         }
     }
 }
