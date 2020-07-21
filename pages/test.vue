@@ -1,37 +1,25 @@
 <template>
   <div>
-      {{showMsg()}}
-      {{showMsg()}}
-      {{showMsg()}}
-      {{showMsg()}}
-      {{showMsg()}}
-      {{showMsg()}}
-      {{showMsg()}}
-      {{showMsg()}}
-      {{msg}}
-      {{msg}}
-      {{msg}}
-      {{msg}}
-      {{msg}}
-      {{msg}}
-      {{msg}}
-      {{msg}}
-      {{msg}}
+      <!-- 没有数据的情况下, 显示一个 undefined 大不了就是空白 -->
+      {{ticketData.id}}
+      <!-- 如果从一个 undefined 属性中继续取属性, 就会报错 -->
+      {{ticketData.seat_infos.org_settle_price}}
+
+      <!-- <div v-if="showNull"> -->
+          <!-- 这两种写法到底哪一种会显示 -->
+      <div v-if="showObj">
+          这里是条件渲染的子组件
+      </div>
   </div>
 </template>
 
 <script>
 export default {
-    computed: {
-        msg() {
-            console.log('计算属性被执行');
-            return 'hello vue'
-        }
-    },
-    methods: {
-        showMsg() {
-            console.log('函数被执行');
-            return 'hello vue'
+    data() {
+        return {
+            ticketData: {},
+            showNull: null,
+            showObj: {}
         }
     }
 }
