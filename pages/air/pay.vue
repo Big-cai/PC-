@@ -89,11 +89,44 @@ export default {
                     setTimeout(() => {
                         this.checkPay()
                     }, 2000);
-                }else if(res.data.trade_state == 'SUCCESS'){
-                    console.log(res.data);
-                    this.$message.success('支付已完成')
+                }else {
+                    this.processPayState(res.data.trade_state)
                 }
+
             })
+        },
+        processPayState(state) {
+            switch (state) {
+                case 'SUCCESS':
+                    this.$message('支付已完成');
+                    break;
+
+                case 'REFUND':
+                    this.$message('转入退款');
+                    break;
+
+                case 'NOTPAY':
+                    this.$message('未支付');
+                    break;
+
+                case 'CLOSED':
+                    this.$message('已关闭');
+                    break;
+
+                case 'REVOKED':
+                    this.$message('已撤销');
+                    break;
+
+                case 'USERPAYING':
+                    this.$message('用户支付中');
+                    break;
+
+                case 'PAYERROR':
+                    this.$message('支付失败');
+                    break;
+                default:
+                    break;
+                }
         }
     }
 }
