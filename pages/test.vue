@@ -1,25 +1,44 @@
 <template>
   <div>
-      <!-- 没有数据的情况下, 显示一个 undefined 大不了就是空白 -->
-      {{ticketData.id}}
-      <!-- 如果从一个 undefined 属性中继续取属性, 就会报错 -->
-      {{ticketData.seat_infos.org_settle_price}}
-
-      <!-- <div v-if="showNull"> -->
-          <!-- 这两种写法到底哪一种会显示 -->
-      <div v-if="showObj">
-          这里是条件渲染的子组件
-      </div>
+      <Comment :commentData="item" v-for="(item, index) in commentList" :key="index"/>
   </div>
 </template>
 
 <script>
+import Comment from '@/components/test/comment'
 export default {
+    components: {
+        Comment
+    },
+    // 评论数据
     data() {
         return {
-            ticketData: {},
-            showNull: null,
-            showObj: {}
+            commentList: [
+                {
+                    content: '666'
+                },
+                {
+                    content: '这帖子说的有道理'
+                },
+                {
+                    content: '从前有座山'
+                },
+                {
+                    content: '山上有座庙',
+                    parent: {
+                        content: '从前有座山'
+                    }
+                },
+                {
+                    content: '庙里有个和尚在讲故事',
+                    parent: {
+                        content: '山上有座庙',
+                        parent: {
+                            content: '从前有座山'
+                        }
+                    }
+                }
+            ]
         }
     }
 }
