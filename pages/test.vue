@@ -1,49 +1,32 @@
 <template>
   <div>
-      <Comment :commentData="item" v-for="(item, index) in commentList" :key="index"/>
+      地图
+      <div id="container"></div>
   </div>
 </template>
 
 <script>
-import Comment from '@/components/test/comment'
 export default {
-    components: {
-        Comment
-    },
-    // 评论数据
-    data() {
-        return {
-            commentList: [
-                {
-                    content: '666'
-                },
-                {
-                    content: '这帖子说的有道理'
-                },
-                {
-                    content: '从前有座山'
-                },
-                {
-                    content: '山上有座庙',
-                    parent: {
-                        content: '从前有座山'
-                    }
-                },
-                {
-                    content: '庙里有个和尚在讲故事',
-                    parent: {
-                        content: '山上有座庙',
-                        parent: {
-                            content: '从前有座山'
-                        }
-                    }
-                }
-            ]
+    mounted() {
+        window.onLoad  = function(){
+            // 2. 地图库加载完毕的回调函数
+            var map = new AMap.Map('container');
         }
+
+        // 1. 加载高德地图库
+        var url = 'https://webapi.amap.com/maps?v=1.4.15&key=bd0434aac500d03e65c54ad38c83fe02&callback=onLoad';
+        var jsapi = document.createElement('script');
+        jsapi.charset = 'utf-8';
+        jsapi.src = url;
+
+        document.head.appendChild(jsapi);
     }
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+#container {
+    width: 500px;
+    height: 300px;
+}
 </style>
