@@ -35,9 +35,6 @@ export default {
             orderData: {}
         }
     },
-    created() {
-        
-    },
     watch: {
         '$store.state.user.userInfo.token': {
             handler: function () {
@@ -63,10 +60,32 @@ export default {
                         // 2. 是需要变为二维码的字符串
                         // 第三个是一个可选的配置对象, 其中 width 属性可以控制宽度
                         QRCode.toCanvas(this.$refs.canvas, res.data.payInfo.code_url, {width: 200})
+
+                        // 二维码生成后就应当校验支付状态是否已经支付成功
+                        this.checkPay();
                     })
                 }
             },
             immediate: true
+        },
+        
+    },
+    methods: {
+        checkPay() {
+            this.$axios({
+                method: 'post',
+                url: '/airorders/checkpay',
+                headers: {
+                    Authorization: "Bearer " + this.$store.state.user.userInfo.token
+                },
+                data:{
+                    id: this.orderData.id,
+                    nonce_str: this.orderData.price,
+                    out_trade_no: this.orderData.payInfo.order_no
+                }
+            }).then(res=>{
+                console.log(res.data);
+            })
         }
     }
 }
