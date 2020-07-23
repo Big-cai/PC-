@@ -32,7 +32,8 @@ import QRCode from 'qrcode'
 export default {
     data() {
         return {
-            orderData: {}
+            orderData: {},
+            timer:  null
         }
     },
     watch: {
@@ -86,7 +87,7 @@ export default {
             }).then(res=>{
                 console.log(res.data);
                 if(res.data.trade_state == 'NOTPAY') {
-                    setTimeout(() => {
+                    this.timer = setTimeout(() => {
                         this.checkPay()
                     }, 2000);
                 }else {
@@ -128,6 +129,10 @@ export default {
                     break;
                 }
         }
+    },
+    destroyed() {
+        // 跳出页面时应该销毁定时器, 避免堆积
+        clearTimeout(this.timer)
     }
 }
 </script>
