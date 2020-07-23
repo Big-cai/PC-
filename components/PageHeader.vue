@@ -160,4 +160,13 @@ export default {
             }
         }
     } 
+
+    // 1. 部分匹配的情况要高亮
+    // 2. 为什么 :not(:first-child)
+    .header .navs .nuxt-link-active:not(:first-child), 
+    // 3. 针对第一个菜单项如何处理
+    .header .navs .nuxt-link-exact-active {
+        background: #409eff;
+        color: #fff!important;
+    }
 </style>
