@@ -1,11 +1,5 @@
 <template>
-    <div class="search-form">
-
-        departCity = {{form.departCity}} <br>
-        departCode = {{form.departCode}} <br>
-        destCity = {{form.destCity}} <br>
-        destCode = {{form.destCode}} <br>
-        departDate = {{form.departDate}} <br>        
+    <div class="search-form">      
         <!-- 头部tab切换 -->
         <el-row type="flex" class="search-tab">
             <span v-for="(item, index) in tabs" :key="index"
