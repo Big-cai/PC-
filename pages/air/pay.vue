@@ -85,6 +85,14 @@ export default {
                 }
             }).then(res=>{
                 console.log(res.data);
+                if(res.data.trade_state == 'NOTPAY') {
+                    setTimeout(() => {
+                        this.checkPay()
+                    }, 2000);
+                }else if(res.data.trade_state == 'SUCCESS'){
+                    console.log(res.data);
+                    this.$message.success('支付已完成')
+                }
             })
         }
     }
