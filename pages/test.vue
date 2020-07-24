@@ -10,7 +10,11 @@ export default {
     mounted() {
         window.onLoad  = function(){
             // 2. 地图库加载完毕的回调函数
-            var map = new AMap.Map('container');
+            var map = new AMap.Map('container', {
+                zoom: 21,
+                center: [113.32459, 23.10668],
+                viewMode: '3D'
+            });
         }
 
         // 1. 加载高德地图库
