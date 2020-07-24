@@ -27,6 +27,11 @@ export default {
 
           map.add(marker)
           
+          // 1. 告诉高德地图需要额外加载的插件
+          AMap.plugin('AMap.ToolBar', function() {
+            var toolbar = new AMap.ToolBar();
+            map.addControl(toolbar);
+          })
         }
 
         // 2. 引入高德地图库
