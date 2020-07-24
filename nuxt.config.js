@@ -48,7 +48,12 @@ export default {
       ssr: false
     },
     '@/plugins/axios',
-    '@/plugins/eventBus'
+    '@/plugins/eventBus',
+    {
+      src: '@/plugins/editor',
+      ssr: false
+      // 添加一个 ssr 属性设置为 false 就可以禁止这个插件在服务端运行
+    }
 
   ],
 
@@ -65,8 +70,8 @@ export default {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: "http://157.122.54.189:9095" // 新增备用地址
-    // baseURL: "http://127.0.0.1:1337" // 新增axios默认请求路径 		  
+    // baseURL: "http://157.122.54.189:9095" // 新增备用地址
+    baseURL: "http://127.0.0.1:1337" // 新增axios默认请求路径 		  
   },
 
   /*
