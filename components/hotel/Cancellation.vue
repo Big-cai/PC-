@@ -8,16 +8,36 @@
             <el-col :span="6" class="contentModule">
               <el-row class="box_price">
                 <el-col :span="24">价格</el-col>
-                <el-col :span="24">0-2230</el-col>
+                <el-col :span="24">0-4000</el-col>
               </el-row>
               <!-- 拖动条 -->
               <el-row>
-                <el-slider v-model="value"></el-slider>
+                <el-slider v-model="value" :max="4000"></el-slider>
               </el-row>
             </el-col>
 
             <el-col class="contentModule" :span="5">
               <div class="hodelLevel">住宿等级</div>
+              <div class="dropdwn">
+                <el-dropdown class="dropdwn_box" placement="top-end">
+                  <span class="el-dropdown-link dropdwn_link">
+                    不限
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown" >
+
+                    <el-dropdown-item  v-for="(item,index) in levels" :key="index">
+                      
+                      <i class="iconfont iconcircle" ></i>
+                      <span>{{item.level}}星</span>
+                    </el-dropdown-item>
+                  
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </div>
+            </el-col>
+            <el-col class="contentModule" :span="5">
+              <div class="hodelLevel">住宿类型</div>
               <div class="dropdwn">
                 <el-dropdown class="dropdwn_box">
                   <span class="el-dropdown-link dropdwn_link">
@@ -25,99 +45,49 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>1星</span>
+                    <el-dropdown-item v-for="(item,index) in types" :key="index">
+                      <i class="iconfont iconcircle"></i>
+                      <span>{{item.name}}</span>
                     </el-dropdown-item>
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>2星</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>3星</span>
-                    </el-dropdown-item>
+                    
                   </el-dropdown-menu>
                 </el-dropdown>
-                
               </div>
-            </el-col>
-            <el-col class="contentModule" :span="5">
-              <div class="hodelLevel">住宿类型</div>
-                <div class="dropdwn">
-                <el-dropdown class="dropdwn_box">
-                  <span class="el-dropdown-link dropdwn_link">
-                    不限
-                    <i class="el-icon-arrow-down el-icon--right"></i>
-                  </span>
-                  <el-dropdown-menu slot="dropdown" placement="bottom-start">
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>1星</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>2星</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>3星</span>
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>            
-              </div>
-
             </el-col>
             <el-col class="contentModule" :span="5">
               <div class="hodelLevel">酒店设施</div>
-               <div class="dropdwn">
+              <div class="dropdwn">
                 <el-dropdown class="dropdwn_box">
                   <span class="el-dropdown-link dropdwn_link">
                     不限
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>1星</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>2星</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>3星</span>
+                    <el-dropdown-item v-for="(item,index) in assets" :key="index">
+                      <i class="iconfont iconcircle"></i>
+                      <span>{{item.name}}</span>
                     </el-dropdown-item>
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
-
             </el-col>
             <el-col class="contentModule" :span="5">
               <div class="hodelLevel">酒店品牌</div>
-               <div class="dropdwn">
+              <div class="dropdwn">
                 <el-dropdown class="dropdwn_box">
                   <span class="el-dropdown-link dropdwn_link">
                     不限
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
-                  <el-dropdown-menu slot="dropdown" placement="top-start">
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>1星</span>
+                  <el-dropdown-menu slot="dropdown" placement="top-start" class="scrool">
+
+                    <el-dropdown-item v-for="(item,index) in brands" :key="index" >
+                      <i class="iconfont iconcircle"></i>
+                      <span>{{item.name}}</span>
                     </el-dropdown-item>
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>2星</span>
-                    </el-dropdown-item>
-                    <el-dropdown-item>
-                      <i class="iconfont iconright-1"></i>
-                      <span>3星</span>
-                    </el-dropdown-item>
+                    
                   </el-dropdown-menu>
                 </el-dropdown>
-                
               </div>
             </el-col>
             <el-col class="contentModule" :span="5">
@@ -134,8 +104,28 @@
 export default {
   data() {
     return {
-      value: 1200
+      value:2000,
+      levels: [], // 酒店等级
+      types: [], // 酒店类型
+      assets: [], // 酒店设施
+      brands: [] // 酒店品牌
     }
+  },
+  created() {
+    this.$axios({
+      url: '/hotels/options',
+      method: 'GET'
+    }).then(res => {
+      // console.log(res.data)
+      // 酒店等级
+      this.levels = res.data.data.levels
+      // 酒店类型
+      this.types =res.data.data.types
+      // 酒店设施
+      this.assets = res.data.data.assets
+      // 酒店品牌
+      this.brands = res.data.data.brands
+    })
   }
 }
 </script>
@@ -171,7 +161,7 @@ export default {
             align-items: center;
             height: 38px;
             line-height: 38px;
-            cursor: pointer ;
+            cursor: pointer;
           }
         }
       }
@@ -182,7 +172,11 @@ export default {
   }
 }
 .el-dropdown-menu {
-  width: 200px !important ;
   
+  width: 200px !important ;
+}
+.scrool{
+  overflow-y: scroll !important;
+  height: 250px;
 }
 </style>

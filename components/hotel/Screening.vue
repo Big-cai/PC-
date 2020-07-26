@@ -8,7 +8,7 @@
           v-model="form.SwitchCity"
           :fetch-suggestions="querySearchAsync"
           :trigger-on-focus="false"
-          placeholder="切换内容"
+          placeholder="切换城市"
           @select="handleSelect"
         ></el-autocomplete>
       </el-form-item>
@@ -25,7 +25,42 @@
 
       <!-- 人数 -->
       <el-form-item>
-        <el-input placeholder="人数未定" suffix-icon="el-input__icon iconfont iconuser" trigger="click"></el-input>
+        <el-input
+          role="tooltip"
+          placeholder="人数未定"
+          readonly="readonly"
+          autocomplete="off"
+          suffix-icon="el-input__icon iconfont iconuser"
+          v-popover:popover
+        ></el-input>
+        <el-popover
+          class="tooltip"
+          ref="popover"
+          placement="bottom-start"
+          width="350"
+          trigger="focus"
+        >
+
+          <el-row class="PeopleNumber ">
+            <el-col :span="6">每间</el-col>
+            <el-col :span="6">
+                 <el-select size="mini" 
+                  :value="options.value">
+                    </el-option>
+                </el-select>
+            </el-col>
+            <el-col :span="6">
+               <el-select size="mini" 
+                  :value="options.value">
+                    </el-option>
+                </el-select>
+            </el-col>
+          </el-row>
+
+          <el-row class="SelectNumber">
+            <el-button type="primary" size="mini">主要按钮</el-button>
+          </el-row>
+        </el-popover>
       </el-form-item>
       <!-- 按钮 -->
       <el-form-item>
@@ -39,46 +74,37 @@
 export default {
   data() {
     return {
+      options: [{
+          value: '1',
+         
+        }, {
+          value: '2',
+   
+        }, 
+      ],
       form: {
         SwitchCity: '', //切换城市
         CutDate: '' //入住日期
       },
-      data: [
-        {
-          id: '', //酒店id(酒店详情)
-          price_in: '', //城市id
-          scenic: '', //酒店价格
-          name_contains: '',
-          hotellevel: '',
-          hoteltype: '',
-          hotelbrand: '',
-          hotelasset: '',
-          enterTime: '',
-          person: '',
-          _sort: '',
-          _limit: '',
-          _start: ''
-        }
-      ]
+     
     }
   },
-  created() {},
+  
   methods: {
-    // 切换城市输入框，获得焦点触发
-    querySearchAsync(value, ShowList) {
-       this.$axios({
-        url: '/hotels',
+    // 切换城市输入框，获得焦点触发value,ShowList
+    querySearchAsync(value,ShowList) {
+   this.$axios({
+        url: '/airs/sale',
         method: 'get',
-        name:value
       }).then(res => {
         console.log(res.data)
-    
+      const cityName = res.data.data.map(city=>{
+          return{
+            value:city.departCity
+          }
+        })
+        ShowList(cityName)
       })
-      ShowList([
-        {value:'广州'},
-        {value:'上海'},
-        {value:'北京'},
-      ])
     },
 
     // 切换城市输入触发
@@ -90,5 +116,26 @@ export default {
 .form_conter {
   display: flex;
   justify-content: space-between;
+}
+
+.tooltip {
+  
+}
+
+.PeopleNumber{
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.el-popover{
+  overflow: auto !important;
+}
+
+.SelectNumber{
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  text-align: right;
 }
 </style>
