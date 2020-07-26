@@ -36,15 +36,11 @@
     </div>
 
     <!-- 2.文章列表 -->
-
-    <!-- 1-2张图的样式 -->
-
     <div class="post-list">
       <div v-if="postList">
-        <!-- 开始循环，写完删掉注释，里面带的内容都是假数据-->
-        <div class="post-item" v-for="item in postList" :key="item.id">
-          <!-- 0或者3张图的样式 -->
-          <div v-if="item.images.length==3||item.images.length==0">
+        <div class="post-item" v-for="item in fenyeList" :key="item.id">
+          <!-- 0或者大于3张图的样式 -->
+          <div v-if="item.images.length>=3||item.images.length==0">
             <h4 class="post-title">
               <nuxt-link to="#">{{item.title}}</nuxt-link>
             </h4>
@@ -53,10 +49,14 @@
             </p>
             <!-- 图片 -->
             <el-row class="card-images" type="flex" justify="space-between" align="middle">
-              <!-- 多图片的要循环 -->
-              <nuxt-link to="#" v-for="(itema,index) in item.images" :key="index">
-                <img :src="itema" alt />
-              </nuxt-link>
+              <!-- 多图片的排除0张 -->
+              <div v-if="item.images.length>0">
+                <nuxt-link to="#">
+                  <img style="float:left;margin-right:15px" :src="item.images[0]" alt />
+                  <img style="float:left;margin-right:15px" :src="item.images[1]" alt />
+                  <img style="float:left;" :src="item.images[2]" alt />
+                </nuxt-link>
+              </div>
             </el-row>
             <!-- 点赞 -->
             <el-row class="post-info" type="flex" justify="space-between">
@@ -67,13 +67,13 @@
                 </span>
                 <el-row class="post-user" type="flex" align="middle">
                   by
-                  <nuxt-link to="#">
+                  <nuxt-link to="/user/personal">
                     <img
                       style="width:30px;height:30px "
                       :src="$axios.defaults.baseURL +item.account.defaultAvatar"
                     />
                   </nuxt-link>
-                  <nuxt-link to="#">{{item.account.nickname}}</nuxt-link>
+                  <nuxt-link to="/user/personal">{{item.account.nickname}}</nuxt-link>
                 </el-row>
                 <span>
                   <i class="el-icon-view"></i>
@@ -84,15 +84,71 @@
             </el-row>
           </div>
           <!-- 1-2张图的样式  断点，冲这里开始做起 -->
-          <div v-if="item.images.length==1||item.images.length==2">1</div>
+          <div v-if="item.images.length==1||item.images.length==2">
+            <el-row class="card-images" type="flex" justify="space-between" align="middle">
+              <nuxt-link to="#">
+                <img :src="item.images[0]" alt />
+              </nuxt-link>
+              <div style="margin-left:10px">
+                <h4 class="post-title">
+                  <nuxt-link to="#">{{item.title}}</nuxt-link>
+                </h4>
+                <p class="post-desc">
+                  <nuxt-link to="#">{{item.summary}}</nuxt-link>
+                </p>
+                <el-row class="post-info" type="flex" justify="space-between">
+                  <el-row class="post-info-left" type="flex" align="middle">
+                    <span>
+                      <i class="el-icon-location-outline"></i>
+                      {{item.cityName}}
+                    </span>
+                    <el-row class="post-user" type="flex" align="middle">
+                      by
+                      <nuxt-link to="/user/personal">
+                        <img
+                          style="width:30px;height:30px "
+                          :src="$axios.defaults.baseURL +item.account.defaultAvatar"
+                        />
+                      </nuxt-link>
+                      <nuxt-link to="/user/personal">{{item.account.nickname}}</nuxt-link>
+                    </el-row>
+                    <span>
+                      <i class="el-icon-view"></i>
+                      {{item.watch}}
+                    </span>
+                  </el-row>
+                  <span class="post-info-right">{{item.like>0?item.like:0}}赞</span>
+                </el-row>
+              </div>
+            </el-row>
+          </div>
         </div>
       </div>
+      <!-- 分页 -->
+      <!-- size-change:改变数据长度  current-change：改变当前页  -->
+      <el-pagination
+        v-if="postList"
+        @size-change="sizeChange"
+        @current-change="currentChange"
+        background
+        layout="total,sizes,prev, pager, next,jumper"
+        :total="postList.length"
+        :page-sizes="[1,3,5,10]"
+        :current-page="pageIndex"
+        :page-size="pageSize"
+      ></el-pagination>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  //接受父组件传的值
+  props: {
+    city: {
+      type: String
+    }
+  },
   data() {
     return {
       //推荐城市数据
@@ -102,21 +158,61 @@ export default {
       //搜索框value
       inputValue: "",
       //文章列表数据
-      postList: null
+      postList: null,
+      //分页数据
+      fenyeList: "",
+      //分页
+      pageIndex: 1,
+      pageSize: 3
     };
   },
+  mounted() {
+    //获取文章列表
+    this.clickCity();
+  },
+  //侦听器
+  watch: {
+    //监听组件将传值  每次搜索的时候，分页都从第一页开始
+    city: {
+      handler(value) {
+        this.pageIndex = 1;
+        this.pageSize = 3;
+        this.clickCity(value);
+      }
+    }
+  },
   methods: {
-    //推荐城市，点击事件  (********   事件可以点击，需要后续修改)
     clickCity(item) {
-      //获取文章列表
-      this.$axios({
-        url: "/posts",
-        params: { city: item }
-      }).then(res => {
-        console.log(res.data.data);
-        this.postList = res.data.data;
-        // console.log(this.postList);
-      });
+      if (item == "") {
+        this.$axios({
+          url: "/posts"
+        }).then(res => {
+          console.log(res.data.data);
+          this.postList = res.data.data;
+          //更改输入框对应的占位符
+          this.inputValue = item;
+          this.xixiList = this.postList;
+          this.pageIndex = 1;
+          this.pageSize = 3;
+          this.partition();
+        });
+      } else {
+        //获取文章列表
+        this.$axios({
+          url: "/posts",
+          params: { city: item }
+        }).then(res => {
+          console.log(res.data.data);
+          this.postList = res.data.data;
+          //更改输入框对应的占位符
+          this.inputValue = item;
+          // console.log(this.inputValue + "111");
+          this.pageIndex = 1;
+          this.pageSize = 3;
+          this.fenyeList = this.postList;
+          this.partition();
+        });
+      }
     },
     //推荐城市，动态加载类名
     addClass(index) {
@@ -125,6 +221,32 @@ export default {
     //推荐城市，动态删除类名
     removeClass(index) {
       this.current = "";
+    },
+    //分页事件（分页大小）
+    sizeChange(value) {
+      // console.log("每页数据大小");
+      this.pageSize = value;
+      // console.log(this.pageSize);
+      //分割要显示的数据长度
+      this.partition();
+    },
+    //分页事件（当前页）
+    currentChange(value) {
+      // console.log("当前页");
+      this.pageIndex = value;
+      // console.log(this.pageIndex);
+      //分割要显示的数据长度
+      this.partition();
+    },
+    //分页-分割要显示的数据长度
+    partition() {
+      if (this.postList) {
+        this.fenyeList = this.postList;
+        const beginIndex = (this.pageIndex - 1) * this.pageSize;
+        const endIndex = beginIndex + this.pageSize;
+        this.fenyeList = this.fenyeList.slice(beginIndex, endIndex);
+        console.log(this.fenyeList);
+      }
     }
   }
 };
@@ -204,12 +326,16 @@ export default {
   //2.文章布局
   .post-list {
     margin-top: 50px;
+    margin-bottom: 10px;
     width: 700px;
-    height: 349px;
     .post-item {
       width: 100%;
       padding: 20px 0;
       border-bottom: 1px solid #eee;
+      &:last-child {
+        margin-bottom: 30px;
+      }
+
       //标题
       .post-title {
         //前三项，单行显示，省略号替换

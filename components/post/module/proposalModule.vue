@@ -46,7 +46,7 @@
     <div class="aside-recommend">
       <h4>推荐城市</h4>
       <nuxt-link to="#">
-        <img src="@/assets/pic_sea.jpeg" alt />
+        <img src="@/assets/pic_sea.jpeg" @click="handlePush()" />
       </nuxt-link>
     </div>
   </div>
@@ -91,7 +91,9 @@ export default {
     //路由跳转
     handlePush(city) {
       this.$router.push("/post?city=" + city);
-      console.log(city);
+      //执行父组件绑定的事件
+      this.$emit("delivery", city);
+      // console.log(city);
     }
   }
 };
