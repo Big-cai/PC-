@@ -1,10 +1,11 @@
 <template>
+  <!-- 游记页面 -->
   <div class="container">
     <el-row type="flex" justify="space-between">
       <!-- 文本框表单 -->
-      <textModule />
+      <textModule :deliveryData="deliveryData" />
       <!-- 草稿箱 -->
-      <draftModule />
+      <draftModule @delivery="delivery" />
     </el-row>
   </div>
 </template>
@@ -18,6 +19,18 @@ export default {
   components: {
     textModule,
     draftModule
+  },
+  data() {
+    return {
+      //草稿箱组件传递的数据
+      deliveryData: ""
+    };
+  },
+  methods: {
+    delivery(value) {
+      console.log("子传父");
+      this.deliveryData = value;
+    }
   }
 };
 </script>

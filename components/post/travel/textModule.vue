@@ -1,11 +1,12 @@
 <template>
+  <!-- 发布攻略组件 -->
   <div class="main">
     <h2>发表新攻略</h2>
     <p class="create-desc">分享你的个人游记，让更多人看到哦！</p>
     <!-- elm表单 -->
     <el-form class="form" :model="form">
       <el-form-item>
-        <el-input placeholder="请输入标题"></el-input>
+        <el-input placeholder="请输入标题" v-model="form.title"></el-input>
       </el-form-item>
       <!-- 富文本框 -->
       <el-form-item>
@@ -34,10 +35,10 @@
     </el-form>
     <!-- 按钮 -->
     <div class="button">
-      <el-button type="primary" size="small" @click="xixi">发布</el-button>
+      <el-button type="primary" size="small" @click="sendRelease">发布</el-button>
       <span>
         或者
-        <nuxt-link to="#">保存到草稿</nuxt-link>
+        <nuxt-link to="#" @click.native="preserVation">保存到草稿</nuxt-link>
       </span>
     </div>
   </div>
@@ -45,13 +46,22 @@
 
 <script>
 export default {
+  //草稿组件的子传子
+  props: ["deliveryData"],
   data() {
     return {
       form: {
+        title: "",
         content: "",
         city: ""
       }
     };
+  },
+  watch: {
+    //监听草稿箱数据的重新编写变化
+    deliveryData(value) {
+      this.form = value;
+    }
   },
   mounted() {
     this.getCity("");
@@ -126,9 +136,42 @@ export default {
     },
 
     //5.发布按钮
-    xixi() {
+    sendRelease() {
       this.form.city = this.form.city.replace(/市$/, "");
       console.log(this.form);
+
+      this.$axios({
+        url: "/posts",
+        method: "post",
+        data: this.form,
+        headers: {
+          Authorization: "Bearer " + this.$store.state.user.userInfo.token
+        }
+      }).then(res => {
+        console.log(res);
+        if (res.status == 200) {
+          this.$message.success("发布成功");
+          this.form = {};
+        }
+      });
+    },
+    //6.保存为草稿
+    preserVation() {
+      let date = new Date();
+      let month =
+        date.getMonth() > 10 ? date.getMonth() : "0" + date.getMonth();
+      let day = date.getDate() > 10 ? date.getDate() : "0" + date.etDate();
+      let dates = date.getFullYear() + "-" + month + "-" + day;
+      let data = {
+        title: this.form.title,
+        city: this.form.city,
+        content: this.form.content,
+        date: dates
+      };
+      // console.log(data);
+
+      this.$store.commit("draft/addDraft", data);
+      // console.log("保存为草稿");
     }
   }
 };
