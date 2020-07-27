@@ -8,6 +8,7 @@
           v-model="form.SwitchCity"
           :fetch-suggestions="querySearchAsync"
           :trigger-on-focus="false"
+          :highlight-first-item="true"
           placeholder="切换城市"
           @select="handleSelect"
         ></el-autocomplete>
@@ -130,7 +131,8 @@ export default {
         console.log(res.data)
         const cityName = res.data.data.map(city => {
           return {
-            value: city.name
+            value: city.name,
+            code:city.code
           }
         })
         ShowList(cityName)
@@ -139,20 +141,27 @@ export default {
 
     // 切换城市输入触发
     handleSelect(item) {
-      console.log(item);
-      this.form.SwitchCity = item.code
+      console.log(item)
+
+      this.form.SwitchCity = item.name
+      
     },
 
     handelSubmit() {},
     // 查询价格
     submitQuery() {
-
+      const query = {
+        SwitchCity: this.form.SwitchCity,
+        enterTime: this.form.enterTime
+      }
       this.$axios({
         url: '/hotels',
         method: 'get',
+        query:this.form
       }).then(res => {
         console.log(res.data)
-        this.$message.success('查询成功');
+        this.$message.success('查询成功')
+        this.$router.go(0)
       })
     }
   }

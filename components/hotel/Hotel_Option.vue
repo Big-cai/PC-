@@ -7,10 +7,11 @@
         <el-row class="area">
           <el-col :span="2">区域:</el-col>
           <el-col :span="24">
-            <div class="scenics_box" v-for="(item,index) in  AreaNear" :key="index" v-if="item.length > 2">
+            <div class="scenics_box" >
+              <!-- v-for="(item,index) in  AreaNear" :key="index" -->
              
-                <span v-for="(itemx,index) in item.scenic" :key="index"  >
-                  {{itemx.name}}
+                <span v-for="(item,index) in  AreaNear" :key="index">
+                  {{item.name}}
                 </span>
               
               <!-- <span class="location_place">城桥镇</span>
@@ -136,6 +137,8 @@ export default {
     }).then(res=>{
       console.log(res.data);    
       this.AreaNear = res.data.data
+    
+ 
     })
   },
   methods:{
