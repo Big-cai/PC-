@@ -19,16 +19,17 @@
             <el-col class="contentModule" :span="5">
               <div class="hodelLevel">住宿等级</div>
               <div class="dropdwn">
-                <el-dropdown class="dropdwn_box" placement="top-end">
+                <el-dropdown class="dropdwn_box" placement="top-end" >
                   <span class="el-dropdown-link dropdwn_link">
                     不限
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" >
 
-                    <el-dropdown-item  v-for="(item,index) in levels" :key="index">
+                    <el-dropdown-item  v-for="(item,index) in levels" :key="index" @click.native="selected(index)" >
                       
-                      <i class="iconfont iconcircle" ></i>
+                      <i class="iconfont iconcircle"></i>
+                      <!-- <i class="iconfont iconright-1"></i> -->
                       <span>{{item.level}}星</span>
                     </el-dropdown-item>
                   
@@ -108,7 +109,10 @@ export default {
       levels: [], // 酒店等级
       types: [], // 酒店类型
       assets: [], // 酒店设施
-      brands: [] // 酒店品牌
+      brands: [], // 酒店品牌
+
+      isShow:true,
+
     }
   },
   created() {
@@ -126,6 +130,11 @@ export default {
       // 酒店品牌
       this.brands = res.data.data.brands
     })
+  },
+  methods:{
+    selected(index){
+      this.isShow = index
+    }
   }
 }
 </script>

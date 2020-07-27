@@ -7,9 +7,13 @@
         <el-row class="area">
           <el-col :span="2">区域:</el-col>
           <el-col :span="24">
-            <div class="scenics_box">
-              <!-- <span class="location_place" v-for="(item,index) in  AreaNear" :key="index">{{item.scenic[0].name}}</span> -->
-              <span class="location_place">城桥镇</span>
+            <div class="scenics_box" v-for="(item,index) in  AreaNear" :key="index" v-if="item.length > 2">
+             
+                <span v-for="(itemx,index) in item.scenic" :key="index"  >
+                  {{itemx.name}}
+                </span>
+              
+              <!-- <span class="location_place">城桥镇</span>
               <span class="location_place">奉贤区</span>
               <span class="location_place">金山区</span>
               <span class="location_place">建设镇</span>
@@ -23,13 +27,13 @@
               <span class="location_place">陈家镇</span>
               <span class="location_place">横沙乡</span>
               <span class="location_place">富乐广场</span>
-              <span class="location_place">亭林</span>
+              <span class="location_place">亭林</span> -->
             </div>
 
-            <a href="#">
-              <i class="el-icon-d-arrow-right"></i>
+            <span class="change">
+              <i class="el-icon-d-arrow-right" :click="changeFoldState"></i>
               等29个区域
-            </a>
+            </span>
           </el-col>
         </el-row>
         <!-- 均价 -->
@@ -106,8 +110,8 @@ export default {
     window.onLoad = function() {
       var map = new AMap.Map('map',{
         resizeEnable: true,
-        center: [113.261732, 23.151086],
-        zoom: 13
+        zoom: 8,
+        resizeEnable: true
       })
       
     }
@@ -121,7 +125,8 @@ export default {
   },
   data(){
     return{
-       AreaNear:{}  //
+       AreaNear:[],  //
+       brandFold: true
     }
   },
   created() {
@@ -133,6 +138,11 @@ export default {
       this.AreaNear = res.data.data
     })
   },
+  methods:{
+    changeFoldState(){
+      this.brandFold = !this.brandFold
+    }
+  }
 }
 </script>
 
@@ -152,7 +162,7 @@ export default {
         padding: 0 2px;
       }
     }
-    a {
+    .change {
       cursor: pointer;
       i {
         color: orange;
