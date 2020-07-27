@@ -79,21 +79,22 @@ export default {
   },
   //函数
   methods: {
-    //鼠标移入添加动态类名
+    //1.鼠标移入添加动态类名
     addClass(index) {
       //更改当前选项，增加active类名
       this.isCurrent = index;
     },
-    //鼠标移出添加动态类名
+    //2.鼠标移出添加动态类名
     removeClass(index) {
       this.isCurrent = "";
     },
-    //路由跳转
+    //3.路由跳转
     handlePush(city) {
       this.$router.push("/post?city=" + city);
       //执行父组件绑定的事件
       this.$emit("delivery", city);
-      // console.log(city);
+      console.log(city);
+      console.log("888");
     }
   }
 };

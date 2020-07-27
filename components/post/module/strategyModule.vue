@@ -41,17 +41,17 @@
         <div class="post-item" v-for="item in fenyeList" :key="item.id">
           <!-- 0或者大于3张图的样式 -->
           <div v-if="item.images.length>=3||item.images.length==0">
-            <h4 class="post-title">
+            <h4 class="post-title" @click="jumpDetails(item.id)">
               <nuxt-link to="#">{{item.title}}</nuxt-link>
             </h4>
-            <p class="post-desc">
+            <p class="post-desc" @click="jumpDetails(item.id)">
               <nuxt-link to="#">{{item.summary}}</nuxt-link>
             </p>
             <!-- 图片 -->
             <el-row class="card-images" type="flex" justify="space-between" align="middle">
               <!-- 多图片的排除0张 -->
               <div v-if="item.images.length>0">
-                <nuxt-link to="#">
+                <nuxt-link to="#" @click.native="jumpDetails(item.id)">
                   <img style="float:left;margin-right:15px" :src="item.images[0]" alt />
                   <img style="float:left;margin-right:15px" :src="item.images[1]" alt />
                   <img style="float:left;" :src="item.images[2]" alt />
@@ -86,14 +86,14 @@
           <!-- 1-2张图的样式  断点，冲这里开始做起 -->
           <div v-if="item.images.length==1||item.images.length==2">
             <el-row class="card-images" type="flex" justify="space-between" align="middle">
-              <nuxt-link to="#">
+              <nuxt-link to="#" @click.native="jumpDetails(item.id)">
                 <img :src="item.images[0]" alt />
               </nuxt-link>
               <div style="margin-left:10px">
-                <h4 class="post-title">
+                <h4 class="post-title" @click="jumpDetails(item.id)">
                   <nuxt-link to="#">{{item.title}}</nuxt-link>
                 </h4>
-                <p class="post-desc">
+                <p class="post-desc" @click="jumpDetails(item.id)">
                   <nuxt-link to="#">{{item.summary}}</nuxt-link>
                 </p>
                 <el-row class="post-info" type="flex" justify="space-between">
@@ -144,11 +144,7 @@
 <script>
 export default {
   //接受父组件传的值
-  props: {
-    city: {
-      type: String
-    }
-  },
+  props: ["city"],
   data() {
     return {
       //推荐城市数据
@@ -182,6 +178,7 @@ export default {
     }
   },
   methods: {
+    //1.//获取文章列表
     clickCity(item) {
       if (item == "") {
         this.$axios({
@@ -191,7 +188,6 @@ export default {
           this.postList = res.data.data;
           //更改输入框对应的占位符
           this.inputValue = item;
-          this.xixiList = this.postList;
           this.pageIndex = 1;
           this.pageSize = 3;
           this.partition();
@@ -214,15 +210,15 @@ export default {
         });
       }
     },
-    //推荐城市，动态加载类名
+    //2.推荐城市，动态加载类名
     addClass(index) {
       this.current = index;
     },
-    //推荐城市，动态删除类名
+    //3.推荐城市，动态删除类名
     removeClass(index) {
       this.current = "";
     },
-    //分页事件（分页大小）
+    //4.分页事件（分页大小）
     sizeChange(value) {
       // console.log("每页数据大小");
       this.pageSize = value;
@@ -230,7 +226,7 @@ export default {
       //分割要显示的数据长度
       this.partition();
     },
-    //分页事件（当前页）
+    //5.页事件（当前页）
     currentChange(value) {
       // console.log("当前页");
       this.pageIndex = value;
@@ -238,7 +234,7 @@ export default {
       //分割要显示的数据长度
       this.partition();
     },
-    //分页-分割要显示的数据长度
+    //6.分页-分割要显示的数据长度
     partition() {
       if (this.postList) {
         this.fenyeList = this.postList;
@@ -247,6 +243,11 @@ export default {
         this.fenyeList = this.fenyeList.slice(beginIndex, endIndex);
         console.log(this.fenyeList);
       }
+    },
+    //7.跳转到文章详情
+    jumpDetails(id) {
+      this.$router.push("/post/dateil?id=" + id);
+      console.log(id);
     }
   }
 };
