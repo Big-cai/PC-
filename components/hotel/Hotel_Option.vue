@@ -8,7 +8,7 @@
           <el-col :span="2">区域:</el-col>
           <el-col :span="24">
             <div class="scenics_box">
-              <span class="location_place">人民广场</span>
+              <!-- <span class="location_place" v-for="(item,index) in  AreaNear" :key="index">{{item.scenic[0].name}}</span> -->
               <span class="location_place">城桥镇</span>
               <span class="location_place">奉贤区</span>
               <span class="location_place">金山区</span>
@@ -104,7 +104,12 @@
 export default {
   mounted() {
     window.onLoad = function() {
-      var map = new AMap.Map('map')
+      var map = new AMap.Map('map',{
+        resizeEnable: true,
+        center: [113.261732, 23.151086],
+        zoom: 13
+      })
+      
     }
     var url =
       'https://webapi.amap.com/maps?v=1.4.15&key=7a92f6a43b8dbdeba546223a6756a589&callback=onLoad'
@@ -112,7 +117,22 @@ export default {
     jsapi.charset = 'utf-8'
     jsapi.src = url
     document.head.appendChild(jsapi)
-  }
+    
+  },
+  data(){
+    return{
+       AreaNear:{}  //
+    }
+  },
+  created() {
+    this.$axios({
+      url:'/hotels',
+      method:'get'
+    }).then(res=>{
+      console.log(res.data);    
+      this.AreaNear = res.data.data
+    })
+  },
 }
 </script>
 

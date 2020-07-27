@@ -1,28 +1,32 @@
 <template>
   <div>
     <!-- 酒店列表组件 -->
-    
+
     <div class="container">
-      <el-row class="hodel_list">
+      <el-row class="hodel_list" v-for="(item,index) in NameList " :key="index">
         <!-- 酒店图片部分 -->
+
         <el-col :span="8" class="hodel_img">
-          <img
-            src="https://p1.meituan.net/hotel/c48d045b9f5bf221c479f55c622c8782154904.jpg%40700w_700h_0e_1l%7Cwatermark%3D1%26%26r%3D1%26p%3D9%26x%3D2%26y%3D2%26relative%3D1%26o%3D20"
-            alt
-          />
+          <nuxt-link to="">
+          <img :src="item.photos" alt />
+
+          </nuxt-link>
         </el-col>
-           <!-- 酒店名称 -->
+        <!-- 酒店名称 -->
         <el-col :span="10" class="hodelIntroDuce">
-          <h4 class="hotel_ch_name">锦江之星(吴泾店)</h4>
+          <nuxt-link to="#">
+            <h4 class="hotel_ch_name">{{item.name}}</h4>
+          </nuxt-link>
+          
           <div class="hotel_en_name">
-            <span>jin jiang zhi xing (shang hai min hang wu</span>
+            <span>{{item.alias}}</span>
             <span class="levelStar">
               <i class="iconfont iconhuangguan"></i>
               <i class="iconfont iconhuangguan"></i>
               <i class="iconfont iconhuangguan"></i>
-              <span>经济型</span>
+              <span>{{item.hoteltype.name}}</span>
             </span>
-          </div>     
+          </div>
           <el-row class="evaluation">
             <el-col :span="10" class="Hodel_start">
               <el-rate
@@ -30,48 +34,48 @@
                 disabled
                 show-score
                 text-color="#ff9900"
-                score-template="{value}"
+                score-template="{value}分"
               ></el-rate>
             </el-col>
             <el-col :span="7">
-              <span>15</span>条评价
+              <span class="orange">{{item.all_remarks}}</span>条评价
             </el-col>
             <el-col :span="7">
-              <span>13</span>条游记
+              <span class="orange">{{item.bad_remarks}}</span>篇游记
             </el-col>
           </el-row>
 
           <div class="coordinates">
             <i class="iconfont iconlocation"></i>
-            位于: 剑川路165号(近龙吴路)
+            位于: {{item.address}}
           </div>
         </el-col>
 
         <!-- 左侧菜单列表 -->
-        <el-col :span="6">
-          <div class="item">
+        <el-col :span="6" >
+          <div class="item" >
             <span>携程</span>
             <div class="cell">
-              <span class="hodelPlice">￥240</span>
+              <span class="hodelPlice">￥203</span>
               <i class="el-icon-arrow-right"></i>
             </div>
           </div>
-          <div class="item">
+          <div class="item" >
             <span>艺龙</span>
             <div class="cell">
-              <span class="hodelPlice">￥190</span>
+              <span class="hodelPlice">￥304</span>
               <i class="el-icon-arrow-right"></i>
             </div>
           </div>
-          <div class="item">
-            <span>Hodels.com</span>
+          <div class="item" >
+            <span>Hodel.com</span>
             <div class="cell">
-              <span class="hodelPlice">￥240</span>
+              <span class="hodelPlice">￥187</span>
               <i class="el-icon-arrow-right"></i>
             </div>
           </div>
+          
         </el-col>
-
       </el-row>
     </div>
   </div>
@@ -81,8 +85,20 @@
 export default {
   data() {
     return {
-      value: 3.7
+      value: 4,
+      NameList: [], //总数据
+      products:{}    // 右侧菜单列表数据
     }
+  },
+  created() {
+    this.$axios({
+      url: '/hotels',
+      method: 'get'
+    }).then(res => {
+      // console.log(res.data)
+      this.NameList = res.data.data
+
+    })
   }
 }
 </script>
@@ -95,7 +111,7 @@ export default {
 .hodel_list {
   padding: 25px 0;
   border-bottom: 1px solid #ddd;
-  .hodelIntroDuce{
+  .hodelIntroDuce {
     padding: 0 10px;
   }
 }
@@ -131,8 +147,8 @@ export default {
 .hotel_en_name {
   margin-bottom: 10px;
   color: #666;
-  .levelStar{
-    i{
+  .levelStar {
+    i {
       color: orange;
     }
   }
@@ -140,8 +156,11 @@ export default {
 .Hodel_start {
   margin-bottom: 10px;
 }
-.coordinates{
+.coordinates {
   font-size: 14px;
   color: #666;
+}
+.orange {
+  color: orange;
 }
 </style>
