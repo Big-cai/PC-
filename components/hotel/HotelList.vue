@@ -52,30 +52,20 @@
         </el-col>
 
         <!-- 左侧菜单列表 -->
+        <nuxt-link to="#">
         <el-col :span="6" >
-          <div class="item" >
-            <span>携程</span>
+          <div class="item" v-for="(item,index) in item.products" :key="index">
+            <span>{{item.name}}</span>
             <div class="cell">
-              <span class="hodelPlice">￥203</span>
+              <span class="hodelPlice">￥{{item.price}}</span>
               <i class="el-icon-arrow-right"></i>
             </div>
+            
           </div>
-          <div class="item" >
-            <span>艺龙</span>
-            <div class="cell">
-              <span class="hodelPlice">￥304</span>
-              <i class="el-icon-arrow-right"></i>
-            </div>
-          </div>
-          <div class="item" >
-            <span>Hodel.com</span>
-            <div class="cell">
-              <span class="hodelPlice">￥187</span>
-              <i class="el-icon-arrow-right"></i>
-            </div>
-          </div>
+         
           
         </el-col>
+        </nuxt-link>
       </el-row>
     </div>
   </div>
@@ -87,7 +77,8 @@ export default {
     return {
       value: 4,
       NameList: [], //总数据
-      products:{}    // 右侧菜单列表数据
+      products:{},   // 右侧菜单列表数据
+      random:''
     }
   },
   created() {
@@ -95,11 +86,14 @@ export default {
       url: '/hotels',
       method: 'get'
     }).then(res => {
-      // console.log(res.data)
+      console.log(res.data)
       this.NameList = res.data.data
 
     })
-  }
+  },
+  created(){
+   
+  },
 }
 </script>
 

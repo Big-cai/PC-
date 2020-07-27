@@ -24,14 +24,17 @@
                     不限
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
-                  <el-dropdown-menu slot="dropdown" >
-
-                    <el-dropdown-item  v-for="(item,index) in levels" :key="index">
-                      
-                      <i class="iconfont iconcircle" ></i>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item
+                      v-for="(item,index) in levels"
+                      :key="index"
+                      @click.native="selected(item)"
+                    >
+                    
+                      <i class="iconfont iconcircle" v-if="item.flag"></i>
+                      <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.level}}星</span>
                     </el-dropdown-item>
-                  
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
@@ -45,11 +48,11 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
-                    <el-dropdown-item v-for="(item,index) in types" :key="index">
-                      <i class="iconfont iconcircle"></i>
+                    <el-dropdown-item v-for="(item,index) in types" :key="index" @click.native="accommodation(item)">
+                      <i class="iconfont iconcircle" v-if="item.flag"></i>
+                      <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
                     </el-dropdown-item>
-                    
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
@@ -59,12 +62,13 @@
               <div class="dropdwn">
                 <el-dropdown class="dropdwn_box">
                   <span class="el-dropdown-link dropdwn_link">
-                    不限
+                    {{this.NewValue}}
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
-                    <el-dropdown-item v-for="(item,index) in assets" :key="index">
-                      <i class="iconfont iconcircle"></i>
+                    <el-dropdown-item v-for="(item,index) in assets" :key="index" @click.native="HotelItems(item)">
+                      <i class="iconfont iconcircle" v-if="item.flag"></i>
+                      <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
                     </el-dropdown-item>
                   </el-dropdown-menu>
@@ -80,12 +84,11 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="top-start" class="scrool">
-
-                    <el-dropdown-item v-for="(item,index) in brands" :key="index" >
-                      <i class="iconfont iconcircle"></i>
+                    <el-dropdown-item v-for="(item,index) in brands" :key="index" @click.native="hotelplanner(item)">
+                      <i class="iconfont iconcircle" v-if="item.flag"></i>
+                      <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
                     </el-dropdown-item>
-                    
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
@@ -104,11 +107,14 @@
 export default {
   data() {
     return {
-      value:2000,
+      value: 2000,
+      NewValue:'哈哈',
       levels: [], // 酒店等级
       types: [], // 酒店类型
       assets: [], // 酒店设施
-      brands: [] // 酒店品牌
+      brands: [], // 酒店品牌
+
+      isShow: false
     }
   },
   created() {
@@ -118,15 +124,57 @@ export default {
     }).then(res => {
       // console.log(res.data)
       // 酒店等级
-      this.levels = res.data.data.levels
-      // 酒店类型
-      this.types =res.data.data.types
+      this.levels = res.data.data.levels.map(x=>{
+        return{
+          ...x,
+          flag:true
+        }
+      })
+
+      // 住宿类型
+      this.types = res.data.data.types.map(x=>{
+        return{
+          ...x,
+          flag:true
+        }
+      })
       // 酒店设施
-      this.assets = res.data.data.assets
+      this.assets = res.data.data.assets.map(x=>{
+        return{
+          ...x,
+          flag:true
+        }
+      })
       // 酒店品牌
-      this.brands = res.data.data.brands
+      this.brands = res.data.data.brands.map(x=>{
+        return{
+          ...x,
+          flag:true
+        }
+      })
     })
-  }
+  },
+  methods: {
+    selected(item) {
+      console.log(item)
+      // this.isShow = index
+     item.flag = !item.flag
+    },
+    // 住宿类型
+    accommodation(item){
+      console.log('哈哈');
+      item.flag = !item.flag
+    },
+    // 酒店设施 
+    HotelItems(item){
+      item.flag = !item.flag
+
+    },
+    // 酒店品牌
+    hotelplanner(item){
+      item.flag = !item.flag
+    }
+  },
 }
 </script>
 
@@ -172,10 +220,9 @@ export default {
   }
 }
 .el-dropdown-menu {
-  
   width: 200px !important ;
 }
-.scrool{
+.scrool {
   overflow-y: scroll !important;
   height: 250px;
 }
