@@ -13,20 +13,21 @@
       <Cancellation />
 
       <!-- 酒店列表部分、 -->
-      <HodelList />
+      <HodelList :data="item" v-for="(item,index) in HodelList" :key="index"/>
+
+       <div class="tip" v-if="flightsData && HodelList.length == 0">暂无数据</div>
 
       <!-- 分页部分 -->
       <div class="paging">
         <el-pagination
-          small
-          background
-          prev-text="上一页"
-          next-text="下一页"
-          @current-change="currentChange"
           @size-change="sizeChange"
-          layout="prev, pager, next"
-          :total="50"
-        ></el-pagination>
+          @current-change="currentChange"
+          :page-sizes="[3, 5,7,9]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="20">
+        </el-pagination>
+
       </div>
     </div>
   </div>
@@ -48,11 +49,11 @@ export default {
   },
   data(){
     return{
-      HodelData:{},
+      flightsData:{},
       HodelList:[],  //列表数据
 
       pageIndex: 1,
-      pageSize: 10
+      pageSize: 3
     }
   },
   created(){
@@ -60,33 +61,31 @@ export default {
         url: '/hotels',
         method: 'get'
       }).then(res => {
+        this.flightsData = res.data
         // console.log(res.data)
-         this.HodelData = res.data
-
-        this.HodelList =res.data.data
-        
+         this.HodelList = res.data.data
       })
   },
+  
   methods: {
     setDateList(){
-      //初始值 = 当前页数 减 1 再 * 当前页 显示条数
-      const start = (this.pageIndex - 1) * this.pageSize
-      // 结束值 等于 初始值 + 当前每页 显示条数
-      const end = start + this.pageSize
-      // 初始化 酒店列表数据 截取 需要每页要显示的条数
-      // this.HodelList = this.HodelData.slice(start,end)
+      const start =(this.pageIndex - 1) * this.pageSize
+
+      const end =start + this.pageSize
+
+      this.HodelList = this.flightsData.data.slice(start,end)
     },
     // 当前页
     currentChange(newIndex) {
-      console.log(newIndex)
+      // console.log(newIndex)
       this.pageIndex = newIndex
       this.setDateList()
     },
     // 每页条数
     sizeChange(newIndex) {     
-      console.log(newIndex)
+      // console.log(newIndex)
       this.pageSize = newIndex
-      this.pageSize = 1
+      this.pageIndex = 1
       this.setDateList()
     }
   }
@@ -101,5 +100,11 @@ export default {
 .paging {
   text-align: right;
   padding: 20px 0 40px;
+}
+
+.tip{
+  text-align: center;
+  font-family:'Microsoft KaiTi';
+  font-size: 20px;
 }
 </style>

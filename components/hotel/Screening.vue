@@ -44,7 +44,7 @@
           <el-row class="PeopleNumber ">
             <el-col :span="6">每间</el-col>
             <el-col :span="6">
-                 <el-select size="mini" v-model="adult" placeholder="请选择">
+                 <el-select size="mini" v-model="ExoBinding.adult" placeholder="请选择">
                     <el-option
                       v-for="item in form.options"
                       :key="item.value"
@@ -55,7 +55,7 @@
             </el-col>
 
             <el-col :span="6">
-               <el-select size="mini" v-model="children" placeholder="请选择">
+               <el-select size="mini" v-model="ExoBinding.children" placeholder="请选择">
                     <el-option
                       v-for="item in form.children"
                       :key="item.value"
@@ -73,7 +73,7 @@
       </el-form-item>
       <!-- 按钮 -->
       <el-form-item>
-        <el-button type="primary">查看价格</el-button>
+        <el-button type="primary" @click="facet_query">查看价格</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -84,8 +84,10 @@ export default {
   data() {
     return {
     number:'',      //人数
-    adult:'0成人',  //成人
-    children:'0儿童',  // 儿童
+    ExoBinding:{
+      adult:'0成人',  //成人
+      children:'0儿童',  // 儿童
+    },
 
       form: {
         SwitchCity: '', //切换城市
@@ -93,21 +95,21 @@ export default {
 
          options: [
           {
-           value: '选项1',
-           label: '1成人'
+           value: '1成人',
+           label: ''
          }, {
-           value: '选项2',
-           label: '2成人'
+           value: '2成人',
+           label: ''
          },
         ],
        children:[
          {
-           value: '选项1',
-           label: '1儿童'
+           value: '1儿童',
+           label: ''
          },
          {
-           value: '选项2',
-           label: '2儿童'
+           value: '2儿童',
+           label: ''
          }
        ],
       },
@@ -141,9 +143,20 @@ export default {
       console.log(item);
     },
       // 确定按钮 
-    handlesubmit(){
-      console.log('123');
-      this.number = this.form.label
+    handlesubmit(){ 
+      this.number = this.ExoBinding.children 
+      this.number = this.ExoBinding.adult
+    },
+    // 查询价格 
+    facet_query(){
+      this.$axios({
+        url:'https://restapi.amap.com/v3/ip',
+        params:{
+          key:'5529eb4f2ade1ae8258288c2d20be259'
+        }
+      }).then(res=>{
+        console.log(res.data);
+      })
     }
   }
 }

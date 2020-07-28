@@ -12,7 +12,7 @@
               </el-row>
               <!-- 拖动条 -->
               <el-row>
-                <el-slider v-model="value" :max="4000"></el-slider>
+                <el-slider v-model="objVal.value" :max="4000" @change="dragdown"></el-slider>
               </el-row>
             </el-col>
 
@@ -24,15 +24,16 @@
                     不限
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
-                  <el-dropdown-menu slot="dropdown" >
-
-                    <el-dropdown-item  v-for="(item,index) in levels" :key="index"  @click.native="submit(item)">
-                      
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item
+                      v-for="(item,index) in levels"
+                      :key="index"
+                      @click.native="submit(item)"
+                    >
                       <i class="iconfont iconcircle" v-if="item.flag"></i>
                       <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.level}}星</span>
                     </el-dropdown-item>
-                  
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
@@ -46,12 +47,15 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
-                    <el-dropdown-item v-for="(item,index) in types" :key="index" @click.native="submit2(item)">
+                    <el-dropdown-item
+                      v-for="(item,index) in types"
+                      :key="index"
+                      @click.native="submit2(item)"
+                    >
                       <i class="iconfont iconcircle" v-if="item.flag"></i>
                       <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
                     </el-dropdown-item>
-                    
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
@@ -65,7 +69,11 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
-                    <el-dropdown-item v-for="(item,index) in assets" :key="index" @click.native="submit3(item)">
+                    <el-dropdown-item
+                      v-for="(item,index) in assets"
+                      :key="index"
+                      @click.native="submit3(item)"
+                    >
                       <i class="iconfont iconcircle" v-if="item.flag"></i>
                       <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
@@ -83,13 +91,15 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="top-start" class="scrool">
-
-                    <el-dropdown-item v-for="(item,index) in brands" :key="index" @click.native="submit4(item)">
+                    <el-dropdown-item
+                      v-for="(item,index) in brands"
+                      :key="index"
+                      @click.native="submit4(item)"
+                    >
                       <i class="iconfont iconcircle" v-if="item.flag"></i>
                       <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
                     </el-dropdown-item>
-                    
                   </el-dropdown-menu>
                 </el-dropdown>
               </div>
@@ -108,11 +118,16 @@
 export default {
   data() {
     return {
-      value:2000,
+      objVal: {
+        value: 2000
+      },
       levels: [], // 酒店等级
       types: [], // 酒店类型
       assets: [], // 酒店设施
-      brands: [] // 酒店品牌
+      brands: [], // 酒店品牌
+
+      hotel_lang: '', //酒店数据
+
     }
   },
   created() {
@@ -122,47 +137,69 @@ export default {
     }).then(res => {
       // console.log(res.data)
       // 酒店等级
-      this.levels = res.data.data.levels.map(x=>{
-        return{
+      this.levels = res.data.data.levels.map(x => {
+        return {
           ...x,
-          flag:true
+          flag: true
         }
       })
       // 酒店类型
-      this.types =res.data.data.types.map(x=>{
-        return{
+      this.types = res.data.data.types.map(x => {
+        return {
           ...x,
-          flag:true
+          flag: true
         }
       })
       // 酒店设施
-      this.assets = res.data.data.assets.map(x=>{
-        return{
+      this.assets = res.data.data.assets.map(x => {
+        return {
           ...x,
-          flag:true
+          flag: true
         }
       })
       // 酒店品牌
-      this.brands = res.data.data.brands.map(x=>{
-        return{
+      this.brands = res.data.data.brands.map(x => {
+        return {
           ...x,
-          flag:true
+          flag: true
         }
       })
     })
   },
-  methods:{
-    submit(item){
+  watch: {
+    '$route.query': {
+      handler() {
+        this.dragdown()     
+      },
+      immediate: true //深度监听
+    }
+  },
+  methods: {
+    submit(item) {
       item.flag = !item.flag
     },
-    submit2(item){
+    submit2(item) {
       item.flag = !item.flag
     },
-     submit3(item){
+    submit3(item) {
       item.flag = !item.flag
     },
-     submit4(item){
+    submit4(item) {
       item.flag = !item.flag
+    },
+    // 拖动
+    dragdown() {
+      console.log('价格发生变化')
+      this.$axios({
+        url:'/hotels',
+        method:'get',
+        params:{
+          city: this.city,
+          price_lt: this.price_lt
+        }
+      }).then(res=>{
+        console.log(res.data);
+      })
     }
   }
 }
@@ -210,10 +247,9 @@ export default {
   }
 }
 .el-dropdown-menu {
-  
   width: 200px !important ;
 }
-.scrool{
+.scrool {
   overflow-y: scroll !important;
   height: 250px;
 }
