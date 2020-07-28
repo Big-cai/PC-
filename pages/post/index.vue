@@ -1,26 +1,48 @@
 <template>
-  <div>
-    <h1>添加攻略</h1>
-    <!-- 由于这个组件只有客户端才会引入
-    所以也只能在客户端使用
-    可以利用 nuxt 提供的标签 client-only
-    声明一部分代码只在客户端处理 -->
-    <client-only>
-      <VueEditor v-model="content"/>
-    </client-only>
+  <!-- 攻略首页 -->
+  <div class="container">
+    <el-row type="flex" justify="space-between">
+      <!-- 1.左侧推荐城市组件 -->
+      <div class="proposal">
+        <proposalModule @delivery="delivery" />
+      </div>
+
+      <!-- 2.右侧推荐攻略组件 -->
+      <div class="strategy">
+        <strategyModule :city="city" />
+      </div>
+    </el-row>
   </div>
 </template>
 
 <script>
+//引入左侧推荐城市组件
+import proposalModule from "@/components/post/module/proposalModule";
+//引入右侧推荐攻略组件
+import strategyModule from "@/components/post/module/strategyModule";
 export default {
+  components: {
+    proposalModule,
+    strategyModule
+  },
   data() {
     return {
-      content: ''
+      city: null
+    };
+  },
+  methods: {
+    delivery(value) {
+      // console.log("父组件走通");
+      this.city = value;
     }
   }
-}
+};
 </script>
 
-<style>
-
+<style lang="less" scoped>
+.container {
+  margin: 0px auto;
+  padding: 20px 0;
+  width: 1000px;
+}
 </style>

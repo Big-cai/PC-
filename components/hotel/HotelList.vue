@@ -52,6 +52,7 @@
         </el-col>
 
         <!-- 左侧菜单列表 -->
+        <nuxt-link to="#">
         <el-col :span="6" >
           <div class="item" v-for="(data,index) in data.products" :key="index">
             <span>{{data.name}}</span>
@@ -59,10 +60,12 @@
               <span class="hodelPlice">￥{{data.price}}</span>
               <i class="el-icon-arrow-right"></i>
             </div>
+            
           </div>
          
           
         </el-col>
+        </nuxt-link>
       </el-row>
     </div>
   </div>
@@ -82,9 +85,24 @@ export default {
   data() {
     return {
       value: 4,
+      NameList: [], //总数据
+      products:{},   // 右侧菜单列表数据
+      random:''
     }
   },
+  created() {
+    this.$axios({
+      url: '/hotels',
+      method: 'get'
+    }).then(res => {
+      console.log(res.data)
+      this.NameList = res.data.data
 
+    })
+  },
+  created(){
+   
+  },
 }
 </script>
 

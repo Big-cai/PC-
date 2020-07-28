@@ -28,8 +28,14 @@
                     <el-dropdown-item
                       v-for="(item,index) in levels"
                       :key="index"
+<<<<<<< HEAD
                       @click.native="submit(item)"
                     >
+=======
+                      @click.native="selected(item)"
+                    >
+                    
+>>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
                       <i class="iconfont iconcircle" v-if="item.flag"></i>
                       <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.level}}星</span>
@@ -47,11 +53,15 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
+<<<<<<< HEAD
                     <el-dropdown-item
                       v-for="(item,index) in types"
                       :key="index"
                       @click.native="submit2(item)"
                     >
+=======
+                    <el-dropdown-item v-for="(item,index) in types" :key="index" @click.native="accommodation(item)">
+>>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
                       <i class="iconfont iconcircle" v-if="item.flag"></i>
                       <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
@@ -65,15 +75,19 @@
               <div class="dropdwn">
                 <el-dropdown class="dropdwn_box">
                   <span class="el-dropdown-link dropdwn_link">
-                    不限
+                    {{this.NewValue}}
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
+<<<<<<< HEAD
                     <el-dropdown-item
                       v-for="(item,index) in assets"
                       :key="index"
                       @click.native="submit3(item)"
                     >
+=======
+                    <el-dropdown-item v-for="(item,index) in assets" :key="index" @click.native="HotelItems(item)">
+>>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
                       <i class="iconfont iconcircle" v-if="item.flag"></i>
                       <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
@@ -91,11 +105,15 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="top-start" class="scrool">
+<<<<<<< HEAD
                     <el-dropdown-item
                       v-for="(item,index) in brands"
                       :key="index"
                       @click.native="submit4(item)"
                     >
+=======
+                    <el-dropdown-item v-for="(item,index) in brands" :key="index" @click.native="hotelplanner(item)">
+>>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
                       <i class="iconfont iconcircle" v-if="item.flag"></i>
                       <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>

@@ -13,6 +13,13 @@
                 v-for="(item,index) in  AreaNear"
                 :key="index"
               >{{item.name}}</span>
+            <div class="scenics_box" >
+              <!-- v-for="(item,index) in  AreaNear" :key="index" -->
+             
+                <span v-for="(item,index) in  AreaNear" :key="index">
+                  {{item.name}}
+                </span>
+              
               <!-- <span class="location_place">城桥镇</span>
               <span class="location_place">奉贤区</span>
               <span class="location_place">金山区</span>
@@ -28,12 +35,13 @@
               <span class="location_place">横沙乡</span>
               <span class="location_place">富乐广场</span>
               <span class="location_place">亭林</span>-->
+              <!-- <span class="location_place">亭林</span>  -->
             </div>
 
-            <a href="#">
-              <i class="el-icon-d-arrow-right"></i>
+            <span class="change">
+              <i class="el-icon-d-arrow-right" :click="changeFoldState"></i>
               等29个区域
-            </a>
+            </span>
           </el-col>
         </el-row>
         <!-- 均价 -->
@@ -110,8 +118,8 @@ export default {
     window.onLoad = function() {
       var map = new AMap.Map('map', {
         resizeEnable: true,
-        center: [113.261732, 23.151086],
-        zoom: 8
+        zoom: 8,
+        resizeEnable: true
       })
     }
     var url =
@@ -124,23 +132,29 @@ export default {
   data() {
     return {
       AreaNear: {} //
+  // data(){
+  //   return{
+  //      AreaNear:[],  //
+  //      brandFold: true
+  //   }
     }
   },
   created() {
-    let self = this
     this.$axios({
       url: '/hotels',
       method: 'get',
-      params: {
-        scenic: this.scenic
-      }
     }).then(res => {  
       // console.log(res.data)
       this.AreaNear = res.data.data
 
     })
+  
   },
-  methods: {}
+  methods:{
+    changeFoldState(){
+      this.brandFold = !this.brandFold
+    }
+  }
 }
 </script>
 
@@ -160,7 +174,7 @@ export default {
         padding: 0 2px;
       }
     }
-    a {
+    .change {
       cursor: pointer;
       i {
         color: orange;

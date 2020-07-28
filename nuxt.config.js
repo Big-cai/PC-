@@ -26,6 +26,7 @@ export default {
 
   /*
   ** Global CSS
+  ** 外链css样式表
   */
   css: [
     'element-ui/lib/theme-chalk/index.css',
@@ -34,6 +35,7 @@ export default {
 
   /*
   ** Plugins to load before mounting the App
+  ** 插件配置
   */
   plugins: [
     '@/plugins/element-ui',
@@ -41,6 +43,8 @@ export default {
     // 这种插件引用方法不行, 因为会在 nodejs 端编译时就执行
     // 但是这个关于本地储存的插件只能在浏览器端运行
     // 以对象的形式替换之前的字符串声明
+
+    //vuex状态加持插件
     {
       // 这个对象中 src 属性就是之前的字符串, 也就是插件文件地址
       src: '@/plugins/localStorage',
@@ -48,7 +52,11 @@ export default {
       ssr: false
     },
     '@/plugins/axios',
+
+    //
     '@/plugins/eventBus',
+
+    //富文本框插件
     {
       src: '@/plugins/editor',
       ssr: false
