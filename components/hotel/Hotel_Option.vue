@@ -7,9 +7,9 @@
         <el-row class="area">
           <el-col :span="2">区域:</el-col>
           <el-col :span="24">
-            <div class="scenics_box">
-              <!-- <span class="location_place" v-for="(item,index) in  AreaNear" :key="index">{{item.scenic[0].name}}</span> -->
-              <span class="location_place">城桥镇</span>
+            <div class="scenics_box" v-for="(itemx,index) in AreaNear" :key="index" v-if="itemx.length >3">
+              <span class="location_place" v-for="(item,index) in  itemx.scenic" :key="index" >{{item.name}}</span>
+              <!-- <span class="location_place">城桥镇</span>
               <span class="location_place">奉贤区</span>
               <span class="location_place">金山区</span>
               <span class="location_place">建设镇</span>
@@ -23,7 +23,7 @@
               <span class="location_place">陈家镇</span>
               <span class="location_place">横沙乡</span>
               <span class="location_place">富乐广场</span>
-              <span class="location_place">亭林</span>
+              <span class="location_place">亭林</span> -->
             </div>
 
             <a href="#">
@@ -67,7 +67,7 @@
                     <i class="iconfont iconhuangguan"></i>
                     <i class="iconfont iconhuangguan"></i>
                     <i class="iconfont iconhuangguan"></i>
-                    <span>￥332</span>
+                    <span>￥521</span>
                   </span>
                 </el-tooltip>
               </el-col>
@@ -84,7 +84,7 @@
                     <i class="iconfont iconhuangguan"></i>
                     <i class="iconfont iconhuangguan"></i>
                     <i class="iconfont iconhuangguan"></i>
-                    <span>￥332</span>
+                    <span>￥768</span>
                   </span>
                 </el-tooltip>
               </el-col>
@@ -107,7 +107,7 @@ export default {
       var map = new AMap.Map('map',{
         resizeEnable: true,
         center: [113.261732, 23.151086],
-        zoom: 13
+        zoom:8
       })
       
     }
@@ -130,9 +130,19 @@ export default {
       method:'get'
     }).then(res=>{
       console.log(res.data);    
-      this.AreaNear = res.data.data
+      this.AreaNear = res.data.data.map(x=>{
+        return{
+          ...x,
+          
+        }
+      })
+      console.log(123);
+      console.log(this.AreaNear);
     })
   },
+  methods:{
+   
+  }
 }
 </script>
 

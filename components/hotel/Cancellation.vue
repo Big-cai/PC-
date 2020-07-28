@@ -26,9 +26,10 @@
                   </span>
                   <el-dropdown-menu slot="dropdown" >
 
-                    <el-dropdown-item  v-for="(item,index) in levels" :key="index">
+                    <el-dropdown-item  v-for="(item,index) in levels" :key="index"  @click.native="submit(item)">
                       
-                      <i class="iconfont iconcircle" ></i>
+                      <i class="iconfont iconcircle" v-if="item.flag"></i>
+                      <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.level}}星</span>
                     </el-dropdown-item>
                   
@@ -45,8 +46,9 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
-                    <el-dropdown-item v-for="(item,index) in types" :key="index">
-                      <i class="iconfont iconcircle"></i>
+                    <el-dropdown-item v-for="(item,index) in types" :key="index" @click.native="submit2(item)">
+                      <i class="iconfont iconcircle" v-if="item.flag"></i>
+                      <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
                     </el-dropdown-item>
                     
@@ -63,8 +65,9 @@
                     <i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="bottom-start">
-                    <el-dropdown-item v-for="(item,index) in assets" :key="index">
-                      <i class="iconfont iconcircle"></i>
+                    <el-dropdown-item v-for="(item,index) in assets" :key="index" @click.native="submit3(item)">
+                      <i class="iconfont iconcircle" v-if="item.flag"></i>
+                      <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
                     </el-dropdown-item>
                   </el-dropdown-menu>
@@ -81,8 +84,9 @@
                   </span>
                   <el-dropdown-menu slot="dropdown" placement="top-start" class="scrool">
 
-                    <el-dropdown-item v-for="(item,index) in brands" :key="index" >
-                      <i class="iconfont iconcircle"></i>
+                    <el-dropdown-item v-for="(item,index) in brands" :key="index" @click.native="submit4(item)">
+                      <i class="iconfont iconcircle" v-if="item.flag"></i>
+                      <i class="iconfont iconright-1" v-else></i>
                       <span>{{item.name}}</span>
                     </el-dropdown-item>
                     
@@ -118,14 +122,48 @@ export default {
     }).then(res => {
       // console.log(res.data)
       // 酒店等级
-      this.levels = res.data.data.levels
+      this.levels = res.data.data.levels.map(x=>{
+        return{
+          ...x,
+          flag:true
+        }
+      })
       // 酒店类型
-      this.types =res.data.data.types
+      this.types =res.data.data.types.map(x=>{
+        return{
+          ...x,
+          flag:true
+        }
+      })
       // 酒店设施
-      this.assets = res.data.data.assets
+      this.assets = res.data.data.assets.map(x=>{
+        return{
+          ...x,
+          flag:true
+        }
+      })
       // 酒店品牌
-      this.brands = res.data.data.brands
+      this.brands = res.data.data.brands.map(x=>{
+        return{
+          ...x,
+          flag:true
+        }
+      })
     })
+  },
+  methods:{
+    submit(item){
+      item.flag = !item.flag
+    },
+    submit2(item){
+      item.flag = !item.flag
+    },
+     submit3(item){
+      item.flag = !item.flag
+    },
+     submit4(item){
+      item.flag = !item.flag
+    }
   }
 }
 </script>
