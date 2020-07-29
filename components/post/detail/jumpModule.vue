@@ -34,7 +34,6 @@
       <el-tag
         v-if="$store.state.parent.list.account"
         @close="handleClose"
-        v-focus
         type="info"
         closable
       >回复 @{{$store.state.parent.list.account.nickname}}</el-tag>
@@ -116,6 +115,7 @@ export default {
       // console.log(value);
       //替换成相关攻略传递的值
       this.article = value;
+      this.postId = this.articleContent.id || this.$route.query.id;
 
       //2.递归评论数据
       this.$axios({
@@ -190,9 +190,10 @@ export default {
   mounted() {
     this.handleClose();
     this.$store.commit("parent/setList", "");
-    this.postId = this.$route.query.id;
+    this.postId = this.articleContent.id || this.$route.query.id;
     console.log(this.$store.state.parent.list);
     console.log("eem");
+    console.log(this.postId);
 
     //1.攻略详情的数据请求
     this.$axios({

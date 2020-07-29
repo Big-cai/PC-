@@ -67,6 +67,8 @@ export default {
       // console.log(data1.level);
       this.$store.commit("parent/setList", data);
       this.$router.push("dateil?id=" + this.postId + "#comment");
+      console.log(this.postId);
+
       // this.$router.push("dateil?id=" + this.postId);
     }
   }
