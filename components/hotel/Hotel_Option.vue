@@ -13,12 +13,6 @@
                 v-for="(item,index) in  AreaNear"
                 :key="index"
               >{{item.name}}</span>
-            <div class="scenics_box" >
-              <!-- v-for="(item,index) in  AreaNear" :key="index" -->
-             
-                <span v-for="(item,index) in  AreaNear" :key="index">
-                  {{item.name}}
-                </span>
               
               <!-- <span class="location_place">城桥镇</span>
               <span class="location_place">奉贤区</span>

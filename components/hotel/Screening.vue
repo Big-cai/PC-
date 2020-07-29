@@ -40,7 +40,6 @@
           ref="popover"
           placement="bottom-start"
           width="350"
-<<<<<<< HEAD
           trigger="focus">
 
           <el-row class="PeopleNumber ">
@@ -54,25 +53,9 @@
                       :value="item.value">
                    </el-option>
                 </el-select>
-=======
-          trigger="focus"
-        >
-          <el-row class="PeopleNumber">
-            <el-col :span="6">每间</el-col>
-            <el-col :span="6">
-              <el-select size="mini" placeholder="请选择" v-model="value">
-                <el-option
-                  v-for="item in form.options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
->>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
             </el-col>
 
             <el-col :span="6">
-<<<<<<< HEAD
                <el-select size="mini" v-model="ExoBinding.children" placeholder="请选择">
                     <el-option
                       v-for="item in form.children"
@@ -81,35 +64,17 @@
                       :value="item.value">
                    </el-option>
                 </el-select>
-=======
-              <el-select size="mini" placeholder="请选择" v-model="value2">
-                <el-option
-                  v-for="item in form.children"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
->>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
             </el-col>
           </el-row>
 
           <el-row class="SelectNumber">
-<<<<<<< HEAD
             <el-button type="primary" size="mini" @click="handlesubmit">确定</el-button>
-=======
-            <el-button type="primary" size="mini" @click="handelSubmit">确定</el-button>
->>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
           </el-row>
         </el-popover>
       </el-form-item>
       <!-- 按钮 -->
       <el-form-item>
-<<<<<<< HEAD
         <el-button type="primary" @click="facet_query">查看价格</el-button>
-=======
-        <el-button type="primary" @click="submitQuery">查看价格</el-button>
->>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
       </el-form-item>
     </el-form>
   </div>
