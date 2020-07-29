@@ -36,9 +36,9 @@
         </el-table-column>
         <el-table-column label="最低价格/每晚" width="160">
           <template slot-scope="scope">
-            <span style="color:pink">{{ scope.row.minimum }}</span>
+            <span style="color:#ff9900">{{ scope.row.minimum }}</span>
             <i>起</i>
-            <i class="el-icon-arrow-right" style="color:red"></i>
+            <i class="el-icon-arrow-right" style="color:#ff9900"></i>
           </template>
         </el-table-column>
       </el-table>

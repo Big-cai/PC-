@@ -46,11 +46,13 @@ export default {
     margin-top: 20px;
     display: flex;
     align-items: center;
+    .comment-bd{
+      width: 166px;
+    }
     .recommend {
       position: relative;
-      .recommend-hd {
-        margin-left: 50px;
-      }
+      width: 208px;
+      text-align: center;
       .recommend-bd {
         position: absolute;
         left: 80px;
