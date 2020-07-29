@@ -8,7 +8,7 @@
     <h1 v-if="article">{{article.title}}</h1>
     <!-- 攻略时间-阅读量 -->
     <div class="post-info" v-if="article">
-      <span>攻略：1 {{article.created_at |capitalize}}</span>
+      <span>攻略： {{article.created_at |capitalize}}</span>
       <span>阅读：{{article.watch}}</span>
     </div>
     <!-- 文章内容 -->
