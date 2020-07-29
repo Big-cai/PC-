@@ -115,7 +115,12 @@ export default {
       // console.log(value);
       //替换成相关攻略传递的值
       this.article = value;
-      this.postId = this.articleContent.id || this.$route.query.id;
+      if (this.articleContent.id) {
+        this.postId = this.articleContent.id;
+      } else {
+        this.postId = this.$route.query.id;
+      }
+      // this.postId = this.$route.query.id;
 
       //2.递归评论数据
       this.$axios({
@@ -190,7 +195,7 @@ export default {
   mounted() {
     this.handleClose();
     this.$store.commit("parent/setList", "");
-    this.postId = this.articleContent.id || this.$route.query.id;
+    this.postId = this.$route.query.id;
     console.log(this.$store.state.parent.list);
     console.log("eem");
     console.log(this.postId);
