@@ -1,11 +1,11 @@
 <template>
   <div>
     <!-- 酒店 入住日期-离店日期 组件 -->
-    <el-form class="form_conter">
+    <el-form class="form_conter" ref="showcities">
       <!-- 切换城市  -->
       <el-form-item>
         <el-autocomplete
-          v-model="form.SwitchCity"
+          v-model="showcities.SwitchCity"
           :fetch-suggestions="querySearchAsync"
           :trigger-on-focus="false"
           :highlight-first-item="true"
@@ -16,11 +16,13 @@
       <!-- 入住日期-离店日期 -->
       <el-form-item>
         <el-date-picker
-          v-model="form.enterTime"
+          value-format="yyyy-MM-dd"
+          v-model="showcities.CutDate"
           type="daterange"
           range-separator="-"
           start-placeholder="入住日期"
           end-placeholder="离店日期"
+          @change="startDate"
         ></el-date-picker>
       </el-form-item>
 
@@ -89,10 +91,18 @@ export default {
         adult: '0成人', //成人
         children: '0儿童' // 儿童
       },
+      showcities:{
+      SwitchCity: '', //切换城市
+      CutDate: '', //入住日期
 
+      },
+        
+       
+     
+       
+
+      
       form: {
-        SwitchCity: '', //切换城市
-        CutDate: '', //入住日期
 
         options: [
           {
@@ -117,7 +127,15 @@ export default {
       }
     }
   },
-  created() {},
+  watch:{
+      '$route.query':{
+        handler: function(){
+          if($route.query){
+            
+          }
+        }
+      }
+  },
   methods: {
     // 切换城市输入框，获得焦点触发value,ShowList
     querySearchAsync(value, ShowList) {
@@ -130,7 +148,7 @@ export default {
         const cityName = res.data.data.map(city => {
           return {
             value: city.name,
-            code: city.code
+            code: city.sort
           }
         })
         ShowList(cityName)
@@ -139,7 +157,7 @@ export default {
 
     // 切换城市输入触发
     handleSelect(item) {
-      this.form.SwitchCity = item.code
+      this.form.SwitchCity = item.name
       console.log(item)
     },
     // 确定按钮
@@ -147,16 +165,28 @@ export default {
       this.number = this.ExoBinding.children
       this.number = this.ExoBinding.adult
     },
+    // 日期 
+    startDate(value){
+      console.log(value)
+    },
     // 查询价格
     facet_query() {
-      this.$axios({
-        url: 'https://restapi.amap.com/v3/ip',
-        params: {
-          key: '5529eb4f2ade1ae8258288c2d20be259'
-        }
-      }).then(res => {
-        console.log(res.data)
-      })
+      const query = {
+        SwitchCity: this.showcities.SwitchCity, //切换城市
+        CutDate: this.showcities.CutDate, //入住日期
+      }
+      this.$store.commit('history/addHistory',query)
+
+    //  this.$axios({
+    //    url:'cities',
+    //    method:'get',
+    //  }).then(res=>{
+    //    console.log(res.data);
+    //  })
+     this.$router.push({
+         path:'/hotel',
+         query
+       })
     }
   }
 }
