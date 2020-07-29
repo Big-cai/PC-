@@ -188,7 +188,6 @@ export default {
     },
     // 拖动
     dragdown() {
-      console.log('价格发生变化')
       this.$axios({
         url: '/hotels',
         method: 'get',

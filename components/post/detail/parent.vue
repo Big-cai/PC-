@@ -3,7 +3,7 @@
   <div>
     <div class="cmt-list" v-if="parentList">
       <!-- 子评论递归 -->
-      <parent v-if="parentList.parent" :parentList="parentList.parent" />
+      <parent v-if="parentList.parent" :parentList="parentList.parent" :postId="postId" />
       <!-- cmtshow类名控制回复文字的显示 -->
       <div class="cmtshow">
         <div class="cmt-info">
@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  props: ["parentList"],
+  props: ["parentList", "postId"],
   name: "parent",
   //过滤器
   filters: {
@@ -63,10 +63,11 @@ export default {
     //回复按钮事件
     handleCall(data) {
       console.log();
-
       //  console.log("子组件回复");
       // console.log(data1.level);
       this.$store.commit("parent/setList", data);
+      this.$router.push("dateil?id=" + this.postId + "#comment");
+      // this.$router.push("dateil?id=" + this.postId);
     }
   }
 };

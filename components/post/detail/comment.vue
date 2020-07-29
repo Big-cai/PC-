@@ -11,7 +11,7 @@
           <span>{{item.level}}</span>
         </div>
         <!-- 子评论 -->
-        <parent v-if="item.parent" :parentList="item.parent" />
+        <parent v-if="item.parent" :parentList="item.parent" :postId="postId" />
         <div class="cmt-content">
           <p>{{item.content}}</p>
           <div class="cmt-new" v-if="item.pics.length">
@@ -65,9 +65,9 @@ export default {
   methods: {
     //回复按钮
     handleCall(data) {
-      console.log(this.postx);
-
-      this.$router.push("dateil?id=" + this.postId);
+      console.log(this.postId);
+      this.$router.push("dateil?id=" + this.postId + "#comment");
+      // this.$router.push("dateil?id=" + this.postId);
       // console.log("主评论");
       // console.log(index);
       // console.log(index.level);

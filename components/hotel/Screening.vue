@@ -10,10 +10,11 @@
           :trigger-on-focus="false"
           :highlight-first-item="true"
           placeholder="切换城市"
-          @select="handleSelect"
+          v-model="formInline.departCity"
+          @select="handleDepartSelect"
+          class="el-autocomplete"
         ></el-autocomplete>
       </el-form-item>
-      <!-- 入住日期-离店日期 -->
       <el-form-item>
         <el-date-picker
           value-format="yyyy-MM-dd"
@@ -25,60 +26,50 @@
           @change="startDate"
         ></el-date-picker>
       </el-form-item>
-
-      <!-- 人数 -->
       <el-form-item>
-        <el-input
-          role="tooltip"
-          placeholder="人数未定"
-          readonly="readonly"
-          autocomplete="off"
-          suffix-icon="el-input__icon iconfont iconuser"
-          v-popover:popover
-          v-model="number"
-        ></el-input>
-        <el-popover
-          class="tooltip"
-          ref="popover"
-          placement="bottom-start"
-          width="350"
-          trigger="focus"
-        >
-          <el-row class="PeopleNumber">
-            <el-col :span="6">每间</el-col>
-            <el-col :span="6">
-              <el-select size="mini" v-model="ExoBinding.adult" placeholder="请选择">
-                <el-option
-                  v-for="item in form.options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+        <div class="hotel-people">
+          <el-popover placement="bottom" width="300" trigger="click">
+            <el-row type="flex" align="middle">
+              <span class="hotel-select-item">每间</span>
+              <el-select
+                v-model="selectData.valueO"
+                placeholder="2成人"
+                size="mini"
+                class="select-item"
+                @change="addlabel('成人')"
+              >
+                <el-option v-for="item in 7" :key="item" :label="item" :value="item"></el-option>
               </el-select>
-            </el-col>
-
-            <el-col :span="6">
-              <el-select size="mini" v-model="ExoBinding.children" placeholder="请选择">
-                <el-option
-                  v-for="item in form.children"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select
+                v-model="selectData.valueT"
+                placeholder="0儿童"
+                size="mini"
+                class="select-item"
+                @change="addlabel('儿童')"
+              >
+                <el-option v-for="item in 4" :key="item + 10" :label="item" :value="item"></el-option>
               </el-select>
-            </el-col>
-          </el-row>
-
-          <el-row class="SelectNumber">
-            <el-button type="primary" size="mini" @click="handlesubmit">确定</el-button>
-          </el-row>
-        </el-popover>
+            </el-row>
+            <div class="btn-col"></div>
+            <el-row type="flex" justify="end">
+              <el-button type="primary" size="mini" @click="addContentToInput">确定</el-button>
+            </el-row>
+            <div slot="reference" ref="personal">
+              <el-input
+                placeholder="请输入内容"
+                suffix-icon="el-icon-user"
+                readonly="readonly"
+                v-model="formInline.input2"
+              ></el-input>
+            </div>
+          </el-popover>
+        </div>
       </el-form-item>
-      <!-- 按钮 -->
       <el-form-item>
-        <el-button type="primary" @click="facet_query">查看价格</el-button>
+        <el-button type="primary" @click="queryPrice">查看价格</el-button>
       </el-form-item>
     </el-form>
+
   </div>
 </template>
 
@@ -191,6 +182,7 @@ export default {
   }
 }
 </script>
+
 <style lang="less" scoped>
 .form_conter {
   display: flex;
@@ -215,4 +207,5 @@ export default {
   border-top: 1px solid #ddd;
   text-align: right;
 }
+
 </style>

@@ -5,7 +5,6 @@
     <div class="container">
       <el-row class="hodel_list">
         <!-- 酒店图片部分 -->
-
         <el-col :span="8" class="hodel_img">
           <nuxt-link to="">
           <img :src="data.photos" alt />
