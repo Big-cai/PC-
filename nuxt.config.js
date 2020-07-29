@@ -16,6 +16,10 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_1168872_ehvuah8v57g.css' } // 新增全局字体样式
+    ],
+    script:[
+      // 引入全局高德地图
+     { src:'https://webapi.amap.com/maps?v=1.4.15&key=d07cabd08a2309e5797eaae8b5adbbe0'}
     ]
   },
 
