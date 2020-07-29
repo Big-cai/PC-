@@ -126,8 +126,7 @@ export default {
       assets: [], // 酒店设施
       brands: [], // 酒店品牌
 
-      hotel_lang: '', //酒店数据
-
+      hotel_lang: '' //酒店数据
     }
   },
   created() {
@@ -169,7 +168,7 @@ export default {
   watch: {
     '$route.query': {
       handler() {
-        this.dragdown()     
+        this.dragdown()
       },
       immediate: true //深度监听
     }
@@ -189,16 +188,15 @@ export default {
     },
     // 拖动
     dragdown() {
-      console.log('价格发生变化')
       this.$axios({
-        url:'/hotels',
-        method:'get',
-        params:{
+        url: '/hotels',
+        method: 'get',
+        params: {
           city: this.city,
           price_lt: this.price_lt
         }
-      }).then(res=>{
-        console.log(res.data);
+      }).then(res => {
+        console.log(res.data)
       })
     }
   }

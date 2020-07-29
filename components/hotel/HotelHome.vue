@@ -4,8 +4,6 @@
       <!-- 面包屑部分 -->
       <Breadcrumb />
 
-      <!-- 筛选部分 -->
-      <Screening />
       <!-- 地图部分 -->
       <HotelMap />
 
@@ -35,14 +33,12 @@
 
 <script>
 import Breadcrumb from '@/components/hotel/Breadcrumb'
-import Screening from '@/components/hotel/Screening'
 import HotelMap from '@/components/hotel/Hotel_Option'
 import Cancellation from '@/components/hotel/Cancellation'
 import HodelList from '@/components/hotel/HotelList'
 export default {
   components: {
     Breadcrumb,
-    Screening,
     HotelMap,
     Cancellation,
     HodelList
