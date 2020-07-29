@@ -12,14 +12,8 @@
                 class="location_place"
                 v-for="(item,index) in  AreaNear"
                 :key="index"
-              >{{item.name}}</span>
-            <div class="scenics_box" >
-              <!-- v-for="(item,index) in  AreaNear" :key="index" -->
-             
-                <span v-for="(item,index) in  AreaNear" :key="index">
-                  {{item.name}}
-                </span>
-              
+              >{{item.name}}</span>   
+              <!-- v-for="(item,index) in  AreaNear" :key="index" -->        
               <!-- <span class="location_place">城桥镇</span>
               <span class="location_place">奉贤区</span>
               <span class="location_place">金山区</span>

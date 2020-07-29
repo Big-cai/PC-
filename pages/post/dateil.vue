@@ -2,9 +2,9 @@
   <!-- 攻略详情页 -->
   <el-row class="container" type="flex" justify="space-between">
     <!-- 1. 攻略详情组件-->
-    <jumpModule />
+    <jumpModule :articleContent="articleContent" />
     <!-- 2. 相关详情组件-->
-    <correlationModule />
+    <correlationModule @delivery="delivery" />
   </el-row>
 </template>
 
@@ -19,9 +19,19 @@ export default {
     correlationModule
   },
   data() {
-    return {};
+    return {
+      //文章详情内容
+      articleContent: null
+    };
   },
-  methods: {}
+  methods: {
+    //子传父
+    delivery(value) {
+      // console.log("走通父组件");
+      // console.log(value);
+      this.articleContent = value;
+    }
+  }
 };
 </script>
 

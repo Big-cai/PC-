@@ -40,27 +40,12 @@
           ref="popover"
           placement="bottom-start"
           width="350"
-<<<<<<< HEAD
-          trigger="focus">
-
-          <el-row class="PeopleNumber ">
-            <el-col :span="6">每间</el-col>
-            <el-col :span="6">
-                 <el-select size="mini" v-model="ExoBinding.adult" placeholder="请选择">
-                    <el-option
-                      v-for="item in form.options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                   </el-option>
-                </el-select>
-=======
           trigger="focus"
         >
           <el-row class="PeopleNumber">
             <el-col :span="6">每间</el-col>
             <el-col :span="6">
-              <el-select size="mini" placeholder="请选择" v-model="value">
+              <el-select size="mini" v-model="ExoBinding.adult" placeholder="请选择">
                 <el-option
                   v-for="item in form.options"
                   :key="item.value"
@@ -68,21 +53,10 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
->>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
             </el-col>
 
             <el-col :span="6">
-<<<<<<< HEAD
-               <el-select size="mini" v-model="ExoBinding.children" placeholder="请选择">
-                    <el-option
-                      v-for="item in form.children"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value">
-                   </el-option>
-                </el-select>
-=======
-              <el-select size="mini" placeholder="请选择" v-model="value2">
+              <el-select size="mini" v-model="ExoBinding.children" placeholder="请选择">
                 <el-option
                   v-for="item in form.children"
                   :key="item.value"
@@ -90,26 +64,17 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
->>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
             </el-col>
           </el-row>
 
           <el-row class="SelectNumber">
-<<<<<<< HEAD
             <el-button type="primary" size="mini" @click="handlesubmit">确定</el-button>
-=======
-            <el-button type="primary" size="mini" @click="handelSubmit">确定</el-button>
->>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
           </el-row>
         </el-popover>
       </el-form-item>
       <!-- 按钮 -->
       <el-form-item>
-<<<<<<< HEAD
         <el-button type="primary" @click="facet_query">查看价格</el-button>
-=======
-        <el-button type="primary" @click="submitQuery">查看价格</el-button>
->>>>>>> 46e0412a3da50f177a9c364462f244a33d285de4
       </el-form-item>
     </el-form>
   </div>
@@ -119,37 +84,37 @@
 export default {
   data() {
     return {
-    number:'',      //人数
-    ExoBinding:{
-      adult:'0成人',  //成人
-      children:'0儿童',  // 儿童
-    },
+      number: '', //人数
+      ExoBinding: {
+        adult: '0成人', //成人
+        children: '0儿童' // 儿童
+      },
 
       form: {
         SwitchCity: '', //切换城市
         CutDate: '', //入住日期
 
-         options: [
+        options: [
           {
-           value: '1成人',
-           label: ''
-         }, {
-           value: '2成人',
-           label: ''
-         },
+            value: '1成人',
+            label: ''
+          },
+          {
+            value: '2成人',
+            label: ''
+          }
         ],
-       children:[
-         {
-           value: '1儿童',
-           label: ''
-         },
-         {
-           value: '2儿童',
-           label: ''
-         }
-       ],
-      },
-     
+        children: [
+          {
+            value: '1儿童',
+            label: ''
+          },
+          {
+            value: '2儿童',
+            label: ''
+          }
+        ]
+      }
     }
   },
   created() {},
@@ -165,7 +130,7 @@ export default {
         const cityName = res.data.data.map(city => {
           return {
             value: city.name,
-            code:city.code
+            code: city.code
           }
         })
         ShowList(cityName)
@@ -175,22 +140,22 @@ export default {
     // 切换城市输入触发
     handleSelect(item) {
       this.form.SwitchCity = item.code
-      console.log(item);
+      console.log(item)
     },
-      // 确定按钮 
-    handlesubmit(){ 
-      this.number = this.ExoBinding.children 
+    // 确定按钮
+    handlesubmit() {
+      this.number = this.ExoBinding.children
       this.number = this.ExoBinding.adult
     },
-    // 查询价格 
-    facet_query(){
+    // 查询价格
+    facet_query() {
       this.$axios({
-        url:'https://restapi.amap.com/v3/ip',
-        params:{
-          key:'5529eb4f2ade1ae8258288c2d20be259'
+        url: 'https://restapi.amap.com/v3/ip',
+        params: {
+          key: '5529eb4f2ade1ae8258288c2d20be259'
         }
-      }).then(res=>{
-        console.log(res.data);
+      }).then(res => {
+        console.log(res.data)
       })
     }
   }
