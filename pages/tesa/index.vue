@@ -1,6 +1,8 @@
 <template>
-  <!-- 测试 酒店首页 -->
-  <div>酒店详情页</div>
+  <!-- 酒店首页 -->
+  <div>
+    <nuxt-link to="/tesa/1.html">-->酒店详情页</nuxt-link>
+  </div>
 </template>
 
 <script>

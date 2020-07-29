@@ -29,15 +29,15 @@
 
     <!-- 2.评论模块 （递归）-->
     <div class="correlation">
-      <h4 class="cmt-title">评论</h4>
+      <h4 class="cmt-title" id="comment">评论</h4>
       <!-- 回复@ -->
-      <el-tag v-if="$store.state.parent.list.account" v-focus type="info">
-        回复 @{{$store.state.parent.list.account.nickname}}
-        <i
-          class="iconfont el-icon-close"
-          @click="handleClose"
-        ></i>
-      </el-tag>
+      <el-tag
+        v-if="$store.state.parent.list.account"
+        @close="handleClose"
+        v-focus
+        type="info"
+        closable
+      >回复 @{{$store.state.parent.list.account.nickname}}</el-tag>
 
       <!-- 饿了么文本域 -->
       <div class="cmt-input">
@@ -188,8 +188,12 @@ export default {
     };
   },
   mounted() {
+    this.handleClose();
     this.$store.commit("parent/setList", "");
     this.postId = this.$route.query.id;
+    console.log(this.$store.state.parent.list);
+    console.log("eem");
+
     //1.攻略详情的数据请求
     this.$axios({
       url: "/posts?id=" + this.$route.query.id
