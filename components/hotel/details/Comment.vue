@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import ProgressView from "@/components/hotel/ProgressView";
+import ProgressView from "@/components/hotel/details/ProgressView";
 export default {
   components: {
     ProgressView

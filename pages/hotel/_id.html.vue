@@ -83,8 +83,8 @@
 
 <script>
 // 引入
-import MapModule from "@/components/hotel/MapModule";
-import Comment from "@/components/hotel/Comment";
+import MapModule from "@/components/hotel/details/MapModule";
+import Comment from "@/components/hotel/details/Comment";
 export default {
   components: {
     MapModule,
