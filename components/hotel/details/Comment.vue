@@ -4,23 +4,26 @@
     <h3>0条真实用户评价</h3>
     <div class="comment-hd">
       <div class="comment-bd">
-        <p>总评数：148</p>
-        <p>好评数：145</p>
-        <p>差评：3</p>
+        <p>总评数：{{ hotelData.all_remarks }}</p>
+        <p>好评数：{{ hotelData.good_remarks }}</p>
+        <p>差评：{{ hotelData.bad_remarks }}</p>
       </div>
       <div class="recommend">
         <div class="recommend-hd">
           <el-rate
-            v-model="value"
+            v-model="value5"
             disabled
             show-score
             text-color="#ff9900"
-            score-template="{value}"
+            score-template="{value}分"
           ></el-rate>
         </div>
         <div class="recommend-bd">推荐</div>
       </div>
-      <ProgressView/>
+      
+      <ProgressView ProText="环境" :scores="this.scores.environment"></ProgressView>
+      <ProgressView ProText="产品" :scores="this.scores.product"></ProgressView>
+      <ProgressView ProText="环境" :scores="this.scores.service"></ProgressView>
     </div>
   </div>
 </template>
@@ -28,12 +31,16 @@
 <script>
 import ProgressView from "@/components/hotel/details/ProgressView";
 export default {
+  props: {
+    hotelData: Object
+  },
   components: {
     ProgressView
   },
   data() {
     return {
-      value: 3.7
+      value5: this.hotelData.stars,
+      scores: this.hotelData.scores
     };
   }
 };
@@ -46,11 +53,13 @@ export default {
     margin-top: 20px;
     display: flex;
     align-items: center;
+    .comment-bd {
+      width: 166px;
+    }
     .recommend {
       position: relative;
-      .recommend-hd {
-        margin-left: 50px;
-      }
+      width: 208px;
+      text-align: center;
       .recommend-bd {
         position: absolute;
         left: 80px;
