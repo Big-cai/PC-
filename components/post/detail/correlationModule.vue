@@ -76,7 +76,7 @@ export default {
         let data = res.data.data[0];
         // console.log("子传父");
         // console.log(data);
-
+        // this.$router.push("dateil?id=" + data.id);
         //子传父
         this.$emit("delivery", data);
       });
