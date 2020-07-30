@@ -49,7 +49,7 @@
         </el-col>
     
         <!-- 左侧菜单列表 -->
-        <a href="http://www.4399.com/flash/208559.htm" class="titles">
+        <a href="http://www.4399.com/flash/208559.htm" target="_blank" class="titles">
           <el-col :span="6">
             <div class="item" v-for="(data,index) in data.products" :key="index">
               <span>{{data.name}}</span>
