@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- 酒店列表组件 -->
-    <!-- v-for="(item,index) in NameList " :key="index" -->
     <div class="container">
       <el-row class="hodel_list">
         <!-- 酒店图片部分 -->
@@ -48,9 +47,9 @@
             位于: {{data.address}}
           </div>
         </el-col>
-
+      <a href=""></a>
         <!-- 左侧菜单列表 -->
-        <nuxt-link to="#">
+        <a href="http://www.4399.com/flash/208559.htm" target="_blank" class="titles">
           <el-col :span="6">
             <div class="item" v-for="(data,index) in data.products" :key="index">
               <span>{{data.name}}</span>
@@ -60,7 +59,7 @@
               </div>
             </div>
           </el-col>
-        </nuxt-link>
+        </a>
       </el-row>
     </div>
   </div>
@@ -96,11 +95,11 @@ export default {
   },
   methods: {
     Jump_Into_The() {
-      // 利用编程式导航 跳转带 当前id 加 .html  
+      // 利用编程式导航 跳转带 当前id  
       this.$router.push({
-        path: '/hotel/' + this.data.id + '.html',
+        path: '/hotel/' + this.data.id,
       })
-    
+      console.log(this.data.id);
     }
   }
 }
