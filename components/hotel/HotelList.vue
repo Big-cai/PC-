@@ -98,7 +98,7 @@ export default {
     Jump_Into_The() {
       // 利用编程式导航 跳转带 当前id 加 .html  
       this.$router.push({
-        path: '/hotel/_id.html/?id=' + this.data.id + '.html',
+        path: '/hotel/' + this.data.id + '.html',
       })
     
     }
