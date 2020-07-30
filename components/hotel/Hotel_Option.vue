@@ -35,6 +35,7 @@
           autocomplete="off"
           suffix-icon="el-input__icon iconfont iconuser"
           v-popover:popover
+          v-model="selectData.bancroft"
         ></el-input>
         <el-popover
           class="tooltip"
@@ -42,6 +43,7 @@
           placement="bottom-start"
           width="350"
           trigger="focus"
+          v-model="hidden"
         >
           <el-row class="PeopleNumber">
             <el-col :span="6">每间</el-col>
@@ -53,19 +55,19 @@
                 class="select-item"
                 @change="addlabel('成人')"
               >
-                <el-option v-for="item in 7" :key="item" :label="item" :value="item"></el-option>
+                <el-option v-for="item in 5" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </el-col>
 
             <el-col :span="6">
-              <el-select size="mini" v-model="selectData.valueT" placeholder="请选择">
-                <el-option
-                  v-for="item in 4"
-                  :key="item + 10"
-                  :label="item"
-                  :value="item"
-                  @change="addlabel('儿童')"
-                ></el-option>
+              <el-select
+                v-model="selectData.valueT"
+                placeholder="0儿童"
+                size="mini"
+                class="select-item"
+                @change="addlabel('儿童')"
+              >
+                <el-option v-for="item in 4" :key="item + 10" :label="item" :value="item"></el-option>
               </el-select>
             </el-col>
           </el-row>
@@ -80,7 +82,7 @@
         <el-button type="primary" @click="facet_query">查看价格</el-button>
       </el-form-item>
     </el-form>
-    <!-- 酒店 入住日期-离店日期 end -->
+    <!-- 酒店 入住日期-离店日期 结束 -->
 
     <!-- 地图模块组件 -->
     <el-row class="hotel_map">
@@ -90,6 +92,7 @@
           <el-col :span="2">区域:</el-col>
           <el-col :span="24" :class="{'hidden-all': isSpread}">
             <div class="scenics_box" :class="{limitHeight: isSpread}">
+
               <span class="location_place" v-for="(item) in scenics" :key="item.id">{{item.name}}</span>
             </div>
 
@@ -178,7 +181,8 @@ export default {
       // 成人 儿童
       selectData: {
         valueO: '2成人',
-        valueT: '0儿童'
+        valueT: '0儿童',
+        bancroft: '' //人数未定
       },
 
       cityData: {},
@@ -187,9 +191,10 @@ export default {
       map: '',
       infoWindow: '',
       isSpread: true, //带点击展开
-      // enterTime: '',
-      // leftTime: '',
-      loading: true
+      enterTime: '', //日期开始
+      leftTime: '', //日期结束
+      loading: true,
+      hidden:false   // 点击确定人数隐藏
     }
   },
   mounted() {
@@ -197,6 +202,7 @@ export default {
     this.getAmap()
   },
   computed: {
+    // 从 vuex 获取地图 区域数据
     scenics() {
       if (!this.cityData.scenics) {
         if (this.$store.state.hotel.scenics.length) {
@@ -208,7 +214,7 @@ export default {
     }
   },
   methods: {
-    // 调用vuex 数据 
+    // 调用vuex 数据
     async queryDepartSearch(value, callback) {
       this.cityTemp = await this.querySearchAsync(this.formInline.departCity)
       if (this.cityTemp.length > 0) {
@@ -220,6 +226,7 @@ export default {
         this.$store.commit('hotel/setCityPid', this.cityData.id)
         this.$store.commit('hotel/setScenics', this.cityData.scenics)
       }
+      // 回调 函数
       callback(this.cityTemp)
     },
     // 点击展开 收起
@@ -230,17 +237,24 @@ export default {
     // 日期
     pickerOptions() {},
     // 人数确定按钮
-    handlesubmit(data) {
-      // this.$refs.personal.click()
-      // if (this.selectData.valueT === '0儿童') {
-      //   this.formInline.input2 = this.selectData.valueO
-      //   return
-      // }
-      // this.formInline.input2 =
-      //   this.selectData.valueO + ' ' + this.selectData.valueT
+    handlesubmit() {
+      this.selectData.bancroft = this.selectData.valueO + ' ' + this.selectData.valueT
+      this.hidden = !this.hidden
     },
     // 查看价格
-    facet_query() {},
+    facet_query() {
+      const query = {
+        departCity: this.formInline.departCity, //切换城市
+        date: this.formInline.date //入住日期
+      }
+      this.$store.commit('hotel', query)
+
+      this.$router.push({
+        path: '/hotel',
+        query
+      })
+      this.getAmap()
+    },
     // 儿童
     addlabel(data) {
       if (data === '成人') {
@@ -285,7 +299,7 @@ export default {
       this.searchData = data.data
       this.setMarker()
     },
-      // 定位插件
+    // 定位插件
     autoLocation() {
       AMap.plugin('AMap.CitySearch', () => {
         var citySearch = new AMap.CitySearch()

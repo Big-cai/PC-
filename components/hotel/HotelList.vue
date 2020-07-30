@@ -1,22 +1,21 @@
 <template>
   <div>
     <!-- 酒店列表组件 -->
- <!-- v-for="(item,index) in NameList " :key="index" -->
+    <!-- v-for="(item,index) in NameList " :key="index" -->
     <div class="container">
       <el-row class="hodel_list">
         <!-- 酒店图片部分 -->
         <el-col :span="8" class="hodel_img">
-          <nuxt-link to="">
-          <img :src="data.photos" alt />
-
-          </nuxt-link>
+          <div  class="titles" @click="Jump_Into_The">
+            <img :src="data.photos" alt />
+          </div>
         </el-col>
         <!-- 酒店名称 -->
         <el-col :span="10" class="hodelIntroDuce">
-          <nuxt-link to="#">
+          <div class="titles" @click="Jump_Into_The">
             <h4 class="hotel_ch_name">{{data.name}}</h4>
-          </nuxt-link>
-          
+          </div>
+
           <div class="hotel_en_name">
             <span>{{data.alias}}</span>
             <span class="levelStar">
@@ -52,18 +51,15 @@
 
         <!-- 左侧菜单列表 -->
         <nuxt-link to="#">
-        <el-col :span="6" >
-          <div class="item" v-for="(data,index) in data.products" :key="index">
-            <span>{{data.name}}</span>
-            <div class="cell">
-              <span class="hodelPlice">￥{{data.price}}</span>
-              <i class="el-icon-arrow-right"></i>
+          <el-col :span="6">
+            <div class="item" v-for="(data,index) in data.products" :key="index">
+              <span>{{data.name}}</span>
+              <div class="cell">
+                <span class="hodelPlice">￥{{data.price}}</span>
+                <i class="el-icon-arrow-right"></i>
+              </div>
             </div>
-            
-          </div>
-         
-          
-        </el-col>
+          </el-col>
         </nuxt-link>
       </el-row>
     </div>
@@ -72,7 +68,7 @@
 
 <script>
 export default {
-  props:{
+  props: {
     data: {
       type: Object,
       // 默认是空数组
@@ -85,8 +81,8 @@ export default {
     return {
       value: 4,
       NameList: [], //总数据
-      products:{},   // 右侧菜单列表数据
-      random:''
+      products: {}, // 右侧菜单列表数据
+      random: ''
     }
   },
   created() {
@@ -96,12 +92,17 @@ export default {
     }).then(res => {
       console.log(res.data)
       this.NameList = res.data.data
-
     })
   },
-  created(){
-   
-  },
+  methods: {
+    Jump_Into_The() {
+      // 利用编程式导航 跳转带 当前id 加 .html  
+      this.$router.push({
+        path: '/hotel/_id.html/?id=' + this.data.id + '.html',
+      })
+    
+    }
+  }
 }
 </script>
 
@@ -164,5 +165,8 @@ export default {
 }
 .orange {
   color: orange;
+}
+.titles{
+  cursor: pointer;
 }
 </style>
